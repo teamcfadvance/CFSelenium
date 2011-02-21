@@ -1,4 +1,5 @@
 [CFSelenium](http://github.com/bobsilverberg/CFSelenium) - A Native CFML (ColdFusion) Binding for Selenium-RC
+=============================================================================================================
 
 ### What is CFSelenium? ###
 
