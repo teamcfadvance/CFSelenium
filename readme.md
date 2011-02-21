@@ -13,9 +13,11 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native binding for S
 ### Usage ###
 
 1. Start the Selenium-RC server.  For example:
-	java - jar selenium-server-standalone-2.0b2.jar
+
+    java - jar selenium-server-standalone-2.0b2.jar
 
 2. Create an instance of selenium.cfc, passing in the beginning url for your test, the host and port of your RC instance, and the browser you want to drive:
-	selenium = createObject("component","selenium").init(browserUrl="http://github.com/bobsilverberg/CFSelenium", host="localhost", port=4444, browserCommand="*firefox");
+
+    selenium = createObject("component","selenium").init(browserUrl="http://github.com/bobsilverberg/CFSelenium", host="localhost", port=4444, browserCommand="*firefox");
 
 3. Call methods on the selenium object to drive the browser. For example:
