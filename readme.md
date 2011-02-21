@@ -15,7 +15,22 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native binding for S
 Start the Selenium-RC server.  For example:
     java - jar selenium-server-standalone-2.0b2.jar
 
-Create an instance of selenium.cfc, passing in the beginning url for your test, the host and port of your RC instance, and the browser you want to drive:
-    selenium = createObject("component","selenium").init(browserUrl="http://github.com/bobsilverberg/CFSelenium", host="localhost", port=4444, browserCommand="*firefox");
+Create an instance of selenium.cfc, passing in the beginning url for your test:
+    selenium = new selenium("http://github.com/");
 
-Call methods on the selenium object to drive the browser. For example:
+You can also pass the host, port and browser command into the construtcor, which default to localhost, 4444, and *firefox, respectively:
+	selenium = new selenium("http://github.com/", "localhost", 4444, "*firefox");
+
+Call methods on the selenium object to drive the browser and check values. For example:
+	selenium = new selenium("http://github.com/");
+	selenium.start();
+	selenium.open("/bobsilverberg/CFSelenium");
+	assertEquals("bobsilverberg/CFSelenium - GitHub", selenium.getTitle());
+	selenium.click("link=readme.md");
+	selenium.waitForPageToLoad("30000");
+	assertEquals("readme.md at master from bobsilverberg's CFSelenium - GitHub", selenium.getTitle());
+	selenium.click("raw-url");
+	selenium.waitForPageToLoad("30000");
+	assertEquals("", selenium.getTitle());
+	assertTrue(selenium.isTextPresent("[CFSelenium]"));
+	selenium.stop();

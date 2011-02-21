@@ -39,7 +39,7 @@
 		var response = "";
 		
 		connection.addParam(type="formfield",name="cmd",value=urlEncodedFormat(arguments.command,"utf-8"));
-        for (i = 1; i < arrayLen(arguments.args); i++) {
+        for (i = 1; i <= arrayLen(arguments.args); i++) {
 			connection.addParam(type="formfield",name=i,value=arguments.args[i]);
         }
         if (len(variables.sessionId) > 0) {
@@ -59,7 +59,8 @@
 	public string function getString(required string command, array args = []) {
 		
 		var result = doCommand(argumentCollection=arguments);
-		return right(result,len(result) - 3);
+		var responseLen = len(result) - 3;
+		return (responseLen eq 0) ? "" : right(result,responseLen);
 
 	}
 
