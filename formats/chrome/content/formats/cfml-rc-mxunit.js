@@ -4,180 +4,190 @@
 
 load('remoteControl.js');
 
-this.name = "grails-junit3";
+this.name = "cfml-rc-mxunit";
 
-/**
- * Combines commands involving waits into single *AndWait commands, using the
- * hook provided in filterForRemoteControl(). Returns the modified list.
- *
- * @param commands
- */
-function postFilter(filteredCommands) {
-    var i = 1;
-    
-    while (i < filteredCommands.length) {
-        var command = filteredCommands[i];
-        if (command.command == 'waitForPageToLoad') {
-            filteredCommands[i-1].command += 'AndWait';
-            filteredCommands.splice(i, 1);
-        }
-        else {
-            ++i;
-        }
-    }
-    return filteredCommands;
+function useSeparateEqualsForArray() {
+        return true;
 }
-    
+
 function testMethodName(testName) {
-    return "test" + capitalize(testName);
+        return "test" + capitalize(testName);
 }
 
 function assertTrue(expression) {
-    return "assertTrue " + expression.toString();
+        return "assertTrue(" + expression.toString() + ");";
 }
 
 function verifyTrue(expression) {
-    return "assertTrue " + expression.toString();
+        return "verifyTrue(" + expression.toString() + ");";
 }
 
 function assertFalse(expression) {
-    return "assertFalse " + expression.toString();
+        return "assertFalse(" + expression.toString() + ");";
 }
 
 function verifyFalse(expression) {
-    return "assertFalse " + expression.toString();
+        return "verifyFalse(" + expression.toString() + ");";
 }
 
 function assignToVariable(type, variable, expression) {
-    return type + " " + variable + " = " + expression.toString();
+        return type + " " + variable + " = " + expression.toString();
 }
 
 function ifCondition(expression, callback) {
-    return 'if (' + expression.toString() + ") {\n"
-        + indents(1) + callback() + "\n"
-        + '}';
+    return "if (" + expression.toString() + ") {\n" + callback() + "}";
 }
 
 function joinExpression(expression) {
-    return expression.toString() + ".join(',')";
+    return "join(" + expression.toString() + ", ',')";
 }
 
 function waitFor(expression) {
-    return "selenium.waitFor {\n"
-        + indents(1) + expression.toString() + "\n"
-        + '}';
+        return "for (int second = 0;; second++) {\n" +
+                "\tif (second >= 60) fail(\"timeout\");\n" +
+                "\ttry { " + (expression.setup ? expression.setup() + " " : "") +
+                "if (" + expression.toString() + ") break; } catch (Exception e) {}\n" +
+                "\tThread.sleep(1000);\n" +
+                "}\n";
+        //return "while (" + not(expression).toString() + ") { Thread.sleep(1000); }";
 }
 
 function assertOrVerifyFailure(line, isAssert) {
-    var message = '"expected failure"';
-    var failStatement = "fail(" + message + ")";
-    return "try {\n"
-        + indents(1) + line + "\n"
-        + indents(1) + failStatement + "\n"
-        + "}\n"
-        + 'catch (e) {}';
+        var message = '"expected failure"';
+    var failStatement = "fail(" + message + ");";
+        return "try { " + line + " " + failStatement + " } catch (Throwable e) {}";
 }
 
 Equals.prototype.toString = function() {
-    return "selenium." + this.e2.toString() + " == " + this.e1.toString();
+    if (this.e1.toString().match(/^\d+$/)) {
+        // int
+            return this.e1.toString() + " == " + this.e2.toString();
+    } else {
+        // string
+            return this.e1.toString() + ".equals(" + this.e2.toString() + ")";
+    }
 }
 
 Equals.prototype.assert = function() {
-    return "assertEquals " + this.e1.toString() + ", " + this.e2.toString();
+        return "assertEquals(" + this.e1.toString() + ", " + this.e2.toString() + ");";
 }
 
 Equals.prototype.verify = function() {
-	this.assert();
+        return "verifyEquals(" + this.e1.toString() + ", " + this.e2.toString() + ");";
 }
 
 NotEquals.prototype.toString = function() {
-    return this.e1.toString() + " != " + this.e2.toString();
+        return "!" + this.e1.toString() + ".equals(" + this.e2.toString() + ")";
 }
 
 NotEquals.prototype.assert = function() {
-    return "assertEquals " + this.e1.toString() + ", " + this.e2.toString();
+        return "assertNotEquals(" + this.e1.toString() + ", " + this.e2.toString() + ");";
 }
 
 NotEquals.prototype.verify = function() {
-	this.assert();
+        return "verifyNotEquals(" + this.e1.toString() + ", " + this.e2.toString() + ");";
 }
 
 RegexpMatch.prototype.toString = function() {
-	return this.expression + " =~ " + slashyString(this.pattern);
+        if (this.pattern.match(/^\^/) && this.pattern.match(/\$$/)) {
+                return this.expression + ".matches(" + string(this.pattern) + ")";
+        } else {
+                return "Pattern.compile(" + string(this.pattern) + ").matcher(" + this.expression + ").find()";
+        }
 }
 
 function pause(milliseconds) {
-    return "sleep " + parseInt(milliseconds);
+        return "Thread.sleep(" + parseInt(milliseconds) + ");";
 }
 
 function echo(message) {
-    return "println " + xlateArgument(message);
+        return "System.out.println(" + xlateArgument(message) + ");";
 }
 
-function statement(expression, command) {
-    expression.command = command ? command.command : "";
-    return expression.toString();
+function statement(expression) {
+        return expression.toString() + ';';
 }
 
 function array(value) {
-    var str = '[ ';
-    for (var i = 0; i < value.length; i++) {
-        str += string(value[i]);
-        if (i < value.length - 1) str += ", ";
-    }
-    str += ' ]';
-    return str;
+        var str = 'new String[] {';
+        for (var i = 0; i < value.length; i++) {
+                str += string(value[i]);
+                if (i < value.length - 1) str += ", ";
+        }
+        str += '}';
+        return str;
+}
+
+function nonBreakingSpace() {
+    return "\"\\u00a0\"";
 }
 
 CallSelenium.prototype.toString = function() {
-    var result = '';
-    
-    if (this.negative) {
-        result += '! ';
-    }
-    if (options.receiver) {
-        result += options.receiver + '.';
-    }
-    if (/AndWait$/.test(this.command)) {
-        result += this.command;
-    }
-    else {
-        result += this.message;
-    }
-    result += '(';
-    
-    for (var i = 0; i < this.args.length; i++) {
-        result += this.args[i];
-        if (i < this.args.length - 1) {
-            result += ', ';
+        var result = '';
+        if (this.negative) {
+                result += '!';
         }
-    }
-    
-    result += ')';
-    return result;
+        if (options.receiver) {
+                result += options.receiver + '.';
+        }
+        result += this.message;
+        result += '(';
+        for (var i = 0; i < this.args.length; i++) {
+                result += this.args[i];
+                if (i < this.args.length - 1) {
+                        result += ', ';
+                }
+        }
+        result += ')';
+        return result;
 }
 
 function formatComment(comment) {
-    return comment.comment.replace(/.+/mg, function(str) {
-            return "// " + str;
-        });
+        return comment.comment.replace(/.+/mg, function(str) {
+                        return "// " + str;
+                });
 }
 
-function slashyString(value) {
-	if (value != null) {
-		return '/' + value + '/';
-	} else {
-		return '""';
-	}
+/**
+ * Returns a string representing the suite for this formatter language.
+ *
+ * @param testSuite  the suite to format
+ * @param filename   the file the formatted suite will be saved as
+ */
+function formatSuite(testSuite, filename) {
+    var suiteClass = /^(\w+)/.exec(filename)[1];
+    suiteClass = suiteClass[0].toUpperCase() + suiteClass.substring(1);
+
+    var formattedSuite = "import junit.framework.Test;\n"
+        + "import junit.framework.TestSuite;\n"
+        + "\n"
+        + "public class " + suiteClass + " {\n"
+        + "\n"
+        + indents(1) + "public static Test suite() {\n"
+        + indents(2) + "TestSuite suite = new TestSuite();\n";
+
+    for (var i = 0; i < testSuite.tests.length; ++i) {
+        var testClass = testSuite.tests[i].getTitle();
+        formattedSuite += indents(2)
+            + "suite.addTestSuite(" + testClass + ".class);\n";
+    }
+
+    formattedSuite += indents(2) + "return suite;\n"
+        + indents(1) + "}\n"
+        + "\n"
+        + indents(1) + "public static void main(String[] args) {\n"
+        + indents(2) + "junit.textui.TestRunner.run(suite());\n"
+        + indents(1) + "}\n"
+        + "}\n";
+
+    return formattedSuite;
 }
 
 this.options = {
-    receiver: "selenium",
-    packageName: "com.example.tests",
-    superClass: "GroovyTestCase",
-    indent: '4',
-    initialIndents: '2'
-};
+	    receiver: "selenium",
+	    indent: '4',
+	    initialIndents: '2'
+	};
 
 options.getHeader = function() {
     var timeout = options['global.timeout'] || '30000';
