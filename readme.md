@@ -1,9 +1,9 @@
-[CFSelenium](http://github.com/bobsilverberg/CFSelenium) - A Native CFML (ColdFusion) Binding for Selenium-RC
+[CFSelenium](http://github.com/bobsilverberg/CFSelenium) - A Native CFML (ColdFusion) Client Library for Selenium-RC
 =============================================================================================================
 
 ### What is CFSelenium? ###
 
-CFSelenium is a ColdFusion Component (CFC) which provides a native binding for Selenium-RC. This allows you to write tests, using CFML, which will drive a browser and verify results via Selenium-RC.
+CFSelenium is a ColdFusion Component (CFC) which provides a native client library for Selenium-RC. This allows you to write tests, using CFML, which will drive a browser and verify results via Selenium-RC.
 
 ### Requirements ###
 
