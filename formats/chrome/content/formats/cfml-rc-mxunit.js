@@ -19,7 +19,7 @@ function assertTrue(expression) {
 }
 
 function verifyTrue(expression) {
-        return "verifyTrue(" + expression.toString() + ");";
+        return "assertTrue(" + expression.toString() + ");";
 }
 
 function assertFalse(expression) {
@@ -27,11 +27,11 @@ function assertFalse(expression) {
 }
 
 function verifyFalse(expression) {
-        return "verifyFalse(" + expression.toString() + ");";
+        return "assertFalse(" + expression.toString() + ");";
 }
 
 function assignToVariable(type, variable, expression) {
-        return type + " " + variable + " = " + expression.toString();
+        return variable + " = " + expression.toString(); + ";";
 }
 
 function ifCondition(expression, callback) {
@@ -47,7 +47,7 @@ function waitFor(expression) {
                 "\tif (second >= 60) fail(\"timeout\");\n" +
                 "\ttry { " + (expression.setup ? expression.setup() + " " : "") +
                 "if (" + expression.toString() + ") break; } catch (Exception e) {}\n" +
-                "\tThread.sleep(1000);\n" +
+                "\tsleep(1000);\n" +
                 "}\n";
         //return "while (" + not(expression).toString() + ") { Thread.sleep(1000); }";
 }
@@ -59,13 +59,7 @@ function assertOrVerifyFailure(line, isAssert) {
 }
 
 Equals.prototype.toString = function() {
-    if (this.e1.toString().match(/^\d+$/)) {
-        // int
-            return this.e1.toString() + " == " + this.e2.toString();
-    } else {
-        // string
-            return this.e1.toString() + ".equals(" + this.e2.toString() + ")";
-    }
+    return this.e1.toString() + " eq " + this.e2.toString();
 }
 
 Equals.prototype.assert = function() {
@@ -77,7 +71,7 @@ Equals.prototype.verify = function() {
 }
 
 NotEquals.prototype.toString = function() {
-        return "!" + this.e1.toString() + ".equals(" + this.e2.toString() + ")";
+        return this.e1.toString() + " neq " + this.e2.toString();
 }
 
 NotEquals.prototype.assert = function() {
@@ -89,19 +83,22 @@ NotEquals.prototype.verify = function() {
 }
 
 RegexpMatch.prototype.toString = function() {
-        if (this.pattern.match(/^\^/) && this.pattern.match(/\$$/)) {
-                return this.expression + ".matches(" + string(this.pattern) + ")";
-        } else {
-                return "Pattern.compile(" + string(this.pattern) + ").matcher(" + this.expression + ").find()";
-        }
+		return "reFind(" + string(this.pattern) + "," + this.expression + ") gt 0";
+		/* from the Java formatter
+	        if (this.pattern.match(/^\^/) && this.pattern.match(/\$$/)) {
+	                return this.expression + ".matches(" + string(this.pattern) + ")";
+	        } else {
+	                return "Pattern.compile(" + string(this.pattern) + ").matcher(" + this.expression + ").find()";
+	        }
+        */
 }
 
 function pause(milliseconds) {
-        return "Thread.sleep(" + parseInt(milliseconds) + ");";
+        return "sleep(" + parseInt(milliseconds) + ");";
 }
 
 function echo(message) {
-        return "System.out.println(" + xlateArgument(message) + ");";
+        return "trace(text=" + xlateArgument(message) + ");";
 }
 
 function statement(expression) {
@@ -194,9 +191,9 @@ options.getHeader = function() {
     return "component extends=\"mxunit.framework.TestCase\" displayName=\"${className}\" {\n\n"
         + indents(1) + "public void function setUp() {\n"
         + indents(2) + "browserUrl = \"enter_starting_url_here\";\n"
-        + indents(2) + "selenium = new selenium(browserUrl);\n"
-        + indents(2) + "selenium.setTimeout(" + timeout + ");\n"
+        + indents(2) + "selenium = new CFSelenium.selenium(browserUrl);\n"
         + indents(2) + "selenium.start();\n"
+        + indents(2) + "selenium.setTimeout(" + timeout + ");\n"
         + indents(1) + "}\n\n"
         + indents(1) + "public void function tearDown() {\n"
         + indents(2) + "selenium.stop();\n"

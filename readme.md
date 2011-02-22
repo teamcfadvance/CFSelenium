@@ -34,3 +34,7 @@ Call methods on the selenium object to drive the browser and check values. For e
 	assertEquals("", selenium.getTitle());
 	assertTrue(selenium.isTextPresent("[CFSelenium]"));
 	selenium.stop();
+
+### A Selenium-IDE Formatter Too ###
+
+Also included in the distribution is a Firefox extension which will add a formatter to Selenium-IDE which will allow you to export tests in CFSelenium / MXUnit format. The plugin can be found in the _formats_ folder.
