@@ -8,7 +8,7 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native client librar
 ### Requirements ###
 
 1. [ColdFusion 9+](http://www.coldfusion.com)
-2. The [Selenium-RC Server jar](http://seleniumhq.org/download/previous.html#selenium-rc-previous-downloads), the latest version of which is included in the distribution
+2. The [Selenium-RC Server jar](http://code.google.com/p/selenium/downloads/list), the latest version of which is included in the distribution
 
 ### Usage ###
 
