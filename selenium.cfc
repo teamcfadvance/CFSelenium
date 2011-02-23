@@ -140,7 +140,7 @@
 		
 	}
 
-	public any function start(array browserConfigurationOptions = []) {
+	public any function start(array browserConfigurationOptions = arrayNew(1)) {
 		
 		var startArgs = [variables.browserStartCommand, variables.browserURL, variables.extensionJs];
 		var i = 0;
