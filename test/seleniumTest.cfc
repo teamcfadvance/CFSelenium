@@ -12,7 +12,7 @@ component extends="mxunit.framework.TestCase" {
 	
 	private any function startSelenium(browserUrl, browserCommand) {
 
-	    selenium = createobject("component","selenium").init(browserUrl,"localhost", 4444, browserCommand);
+	    selenium = createobject("component","CFSelenium.selenium").init(browserUrl,"localhost", 4444, browserCommand);
 	    assertTrue(len(selenium.getSessionId()) eq 0);
         selenium.start();
 	    assertFalse(len(selenium.getSessionId()) eq 0);

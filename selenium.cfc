@@ -32,7 +32,7 @@
 		
 	}
 
-	public any function doCommand(required string command, array args = []) {
+	public any function doCommand(required string command, array args = arrayNew(1)) {
 		
 		var connection = new http(url="http://" & variables.host & ":" & variables.port & "/selenium-server/driver/",charset="utf-8",method="POST");
 		var i = "";
@@ -56,7 +56,7 @@
 		
 	}
 	
-	public string function getString(required string command, array args = []) {
+	public string function getString(required string command, array args = arrayNew(1)) {
 		
 		var result = doCommand(argumentCollection=arguments);
 		var responseLen = len(result) - 3;
@@ -64,19 +64,19 @@
 
 	}
 
-	public array function getStringArray(required string command, array args = []) {
+	public array function getStringArray(required string command, array args = arrayNew(1)) {
 
 		return parseCSV(getString(argumentCollection=arguments));
 		
 	}
 
-	public numeric function getNumber(required string command, array args = []) {
+	public numeric function getNumber(required string command, array args = arrayNew(1)) {
 		
 		return val(getString(argumentCollection=arguments));
 
 	}
 
-	public array function getNumberArray(required string command, array args = []) {
+	public array function getNumberArray(required string command, array args = arrayNew(1)) {
 
 		var stringArray = parseCSV(getString(argumentCollection=arguments));
 		var item = "";
@@ -89,7 +89,7 @@
 	}
 
 
-	public boolean function getBoolean(required string command, array args = []) {
+	public boolean function getBoolean(required string command, array args = arrayNew(1)) {
 		
 		var result = getString(argumentCollection=arguments);
 		if (isBoolean(result)) {
@@ -100,7 +100,7 @@
 
 	}
 
-	public array function getBooleanArray(required string command, array args = []) {
+	public array function getBooleanArray(required string command, array args = arrayNew(1)) {
 
 		var stringArray = parseCSV(getString(argumentCollection=arguments));
 		var item = "";
@@ -142,15 +142,18 @@
 
 	public any function start(array browserConfigurationOptions = []) {
 		
-		local.startArgs = [variables.browserStartCommand, variables.browserURL, variables.extensionJs];
-		for (local.item in arguments.browserConfigurationOptions) {
-			arrayAppend(local.startArgs,local.item);
-		}
+		var startArgs = [variables.browserStartCommand, variables.browserURL, variables.extensionJs];
+		var i = 0;
+		var result = "";
 		
-		local.result = getString("getNewBrowserSession",local.startArgs);
+        for (i = 1; i <= arrayLen(arguments.browserConfigurationOptions); i++) {
+			arrayAppend(startArgs,arguments.browserConfigurationOptions[i]);
+        }
 		
-		if (len(local.result) > 0) {
-			variables.sessionId = local.result;
+		result = getString("getNewBrowserSession",startArgs);
+		
+		if (len(result) > 0) {
+			variables.sessionId = result;
 		} else {
 			throw "No sessionId returned from selenium.start()";
 		}
