@@ -13,7 +13,7 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native client librar
 ### Usage ###
 
 Start the Selenium-RC server.  For example:
-    java - jar selenium-server-standalone-2.0b2.jar
+    java -jar selenium-server-standalone-2.0b2.jar
 
 Create an instance of selenium.cfc, passing in the beginning url for your test:
     selenium = new selenium("http://github.com/");
