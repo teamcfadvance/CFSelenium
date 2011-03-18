@@ -1,0 +1,87 @@
+﻿<style>
+	.resultBlock {padding:1ex;margin-bottom:2ex;border:1px solid black;}
+	.success {color:green;}
+	.failure {font-weight:bold;color:red;}
+</style>
+
+<h2>readmeTest for CFSelenium on ColdFusion 7</h2>
+
+<cfoutput>
+	<cfset selenium= CreateObject("component","CFSelenium.selenium_tags").init("http://github.com/")>
+	<cfset selenium.start()>
+	<cfset selenium.open("/bobsilverberg/CFSelenium")>
+
+	<cfset expected= "bobsilverberg/CFSelenium - GitHub">
+	<cfset actual= selenium.getTitle()>
+
+	<p class="resultBlock">
+		Expected page title: #expected#<br />
+		Actual page title: #actual#<br />
+		<cfif expected EQ actual>
+			<span class="success">Passed</span>
+		<cfelse>
+			<span class="failure">Failed</span>
+		</cfif>
+	</p>
+	
+	<cfflush />
+	
+	<p>Loading readme.md...</p>
+	
+	<cfflush />
+	
+	<cfset selenium.click("link=readme.md")>
+	<cfset selenium.waitForPageToLoad("30000")>
+		
+	<cfset expected= "readme.md at master from bobsilverberg/CFSelenium - GitHub">
+	<cfset actual= selenium.getTitle()>
+		
+	<p class="resultBlock">
+		Expected page title: #expected#<br />
+		Actual page title: #actual#<br />
+		<cfif expected EQ actual>
+			<span class="success">Passed</span>
+		<cfelse>
+			<span class="failure">Failed</span>
+		</cfif>
+	</p>
+	
+	<cfflush />
+	
+	<p>Clicking on "raw-url"...</p>
+	
+	<cfflush />
+	
+	<cfset selenium.click("raw-url")>
+	<cfset selenium.waitForPageToLoad("30000")>
+		
+	<cfset expected= "">
+	<cfset actual= selenium.getTitle()>
+	
+	<p class="resultBlock">
+		Expected page title: #expected#<br />
+		Actual page title: #actual#<br />
+		<cfif expected EQ actual>
+			<span class="success">Passed</span>
+		<cfelse>
+			<span class="failure">Failed</span>
+		</cfif>
+	</p>
+	
+	<cfset expected= true>
+	<cfset actual= selenium.isTextPresent("[CFSelenium]")>
+	
+	<p class="resultBlock">
+		Looking for text: [CFSelenium]<br />
+		Text found?: #actual#<br />
+		<cfif expected EQ actual>
+			<span class="success">Passed</span>
+		<cfelse>
+			<span class="failure">Failed</span>
+		</cfif>
+	</p>
+	
+	<p>DONE</p>
+	<cfset selenium.stop()>
+	
+</cfoutput>
