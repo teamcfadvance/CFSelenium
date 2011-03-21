@@ -7,7 +7,7 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native client librar
 
 ### Requirements ###
 
-1. [ColdFusion 9+](http://www.coldfusion.com)
+1. [ColdFusion 7+](http://www.coldfusion.com) - ColdFusion 9+ is required for the script-based cfc. You can use the tag-based cfc, selenium_tags on CF 7 and 8.
 2. The [Selenium-RC Server jar](http://code.google.com/p/selenium/downloads/list), the latest version of which is included in the distribution
 
 ### Usage ###
@@ -38,3 +38,7 @@ Call methods on the selenium object to drive the browser and check values. For e
 ### A Selenium-IDE Formatter Too ###
 
 Also included in the distribution is a Firefox extension which will add a formatter to Selenium-IDE which will allow you to export tests in CFSelenium / MXUnit format. The plugin can be found in the _formats_ folder.
+
+### Support ###
+
+The script-based version of CFSelenium is maintained by [Bob Silverberg](https://github.com/bobsilverberg) and the tag-based version is maintained by [Brian Swartzfager](https://github.com/bcswartz). Please use the main repo's [issue tracker](https://github.com/bobsilverberg/CFSelenium/issues) to report bugs and request enhancements.
