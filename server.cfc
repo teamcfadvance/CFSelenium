@@ -10,7 +10,7 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 
 	<cffunction name="init" output="false" access="public" returntype="any" hint="">
 		<cfargument name="serverURL" type="string" required="false" default="http://localhost:4444/selenium-server"/>
-		<cfargument name="executionDelay" type="numeric" required="false" default="1000"/>
+		<cfargument name="executionDelay" type="numeric" required="false" default="1500"/>
 		<cfargument name="seleniumServerArguments" type="string" required="false"/>
 		<cfargument name="seleniumJarPath" type="string" required="false" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar"/>
 
@@ -22,10 +22,23 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 		<cfif not serverIsRunning()>
 			<cfset var startTS = getTickCount()>
 			<cfset var jarPath = "#expandPath(getSeleniumJarPath())#">
+			<cfset var loopStart = getTickCount()>
+				
 			<cfset args = "-jar ""#jarPath#"" #getSeleniumServerArguments()#">
+			<cflog text="!!!!    STARTING Selenium RC with jar path: #jarPath#!  args were: #args#."/>
 			<cfexecute name="java" arguments="#args#"/>
-			<cfset sleep(getExecutionDelay())/>
-			<cflog text="!!!!    STARTING Selenium RC with jar path: #jarPath#!  args were: #args#. Startup took #getTickCount()-startTS# ms"/>
+			
+			<cfloop condition="true">
+				<cfif serverIsRunning()>
+					<cfbreak>
+				</cfif>
+				<cfset sleep(100)/>
+				<cfif getTickCount() - loopStart GT 10000>
+					<cfthrow message="After 10 seconds selenium server still not started">
+				</cfif>
+			</cfloop>
+			
+			<cflog text="  Startup took #getTickCount()-startTS# ms"/>
 		</cfif>
 	</cffunction>
 
@@ -40,9 +53,7 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 		<cfset var response = ""/>
 		<cflog text="!!!!    CHECKING Selenium RC at #getServerUrl()#/driver/?cmd=testComplete: Are you running?">
 		<cfhttp url="#getServerUrl()#/driver/?cmd=testComplete" result="response"/>
-		<!---<cflog text="#serializeJson(response)#">--->
-		<cfreturn isStruct(response) and structKeyExists(response, "fileContent") and response.fileContent
-		         eq "OK"/>
+		<cfreturn isStruct(response) and structKeyExists(response, "fileContent") and response.fileContent eq "OK"/>
 	</cffunction>
 
 </cfcomponent>

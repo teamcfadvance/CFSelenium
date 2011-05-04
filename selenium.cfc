@@ -52,7 +52,7 @@
 		if (left(response,2) eq "OK") {
 			return response;
 		}
-		throw "The Response of the Selenium RC is invalid: #response#";
+		throw("The Response of the Selenium RC is invalid: #response#");
 		
 	}
 	

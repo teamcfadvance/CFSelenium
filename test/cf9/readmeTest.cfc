@@ -1,4 +1,4 @@
-component extends="mxunit.framework.TestCase" {
+component extends="cfselenium.CFSeleniumTestCase" {
 
 	function testForReadmePage() {
 		selenium = new CFSelenium.selenium("http://github.com/");
