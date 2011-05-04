@@ -1,4 +1,4 @@
-component extends="mxunit.framework.TestCase" {
+component extends="cfselenium.CFSeleniumTestCase"   {
 
 	function setUp() {
 		browserUrl = "http://wiki.mxunit.org/";
