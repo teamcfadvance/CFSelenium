@@ -13,9 +13,9 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native client librar
 ### Usage ###
 
 Preferred: Write your UI tests to extend cfselenium.CFSeleniumTestCase, which will start and stop the Selenium RC before and after all tests in a TestCase. For example:
-	component extends="cfselenium.CFSeleniumTestCase" {
+	component extends="cfselenium.CFSeleniumTestCase" \\{
 
-	}
+	\\}
 
 Alternate: Start the Selenium-RC server from the shell. For example:
     java -jar selenium-server-standalone-2.0b2.jar
