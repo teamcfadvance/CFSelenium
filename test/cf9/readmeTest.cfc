@@ -1,8 +1,11 @@
 component extends="cfselenium.CFSeleniumTestCase" {
 
+	function setUp(){
+		browserURL = "http://github.com/";
+		super.setUp();
+	}
+
 	function testForReadmePage() {
-		selenium = new CFSelenium.selenium("http://github.com/");
-		selenium.start();
 		selenium.open("/bobsilverberg/CFSelenium");
 		assertEquals("bobsilverberg/CFSelenium - GitHub", selenium.getTitle());
 		selenium.click("link=readme.md");
@@ -13,10 +16,7 @@ component extends="cfselenium.CFSeleniumTestCase" {
 		assertEquals("", selenium.getTitle());
 		assertTrue(selenium.isTextPresent("[CFSelenium]"));
 	}
-	
-	function teardown() {
-		selenium.stop();
-	}
+
 	
 }
 

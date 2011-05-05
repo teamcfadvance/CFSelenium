@@ -4,14 +4,6 @@ component extends="cfselenium.CFSeleniumTestCase"   {
 		browserUrl = "http://wiki.mxunit.org/";
 	}
 
-	private any function startSelenium(browserUrl, browserCommand) {
-	    selenium = createobject("component","CFSelenium.selenium").init(browserUrl,"localhost", 4444, browserCommand);
-	    assertTrue(len(selenium.getSessionId()) eq 0);
-        selenium.start();
-	    assertFalse(len(selenium.getSessionId()) eq 0);
-	    return selenium;
-	}
-	
     function shouldBeAbleToStartFirefox() {
 		startSelenium(browserUrl,"*firefox");
 	}

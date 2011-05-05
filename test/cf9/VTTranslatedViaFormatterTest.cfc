@@ -2,9 +2,7 @@ component extends="cfselenium.CFSeleniumTestCase" displayName="EndToEndServernew
 
     public void function setUp() {
         browserUrl = "http://localhost/validatethis/samples/StructureDemo/index.cfm";
-        selenium = new CFSelenium.selenium(browserUrl);
-        selenium.start();
-        selenium.setTimeout(30000);
+        super.setUp();
     }
 
     public void function testEndToEndServernewValidations() {
