@@ -53,8 +53,8 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 			<!--- we need to give the server time to fully shutdown --->
 			<cfloop condition="serverIsRunning()">
 				<cfset sleep(getExecutionDelay())/>
-				<cfif getTickCount() - loopStart GT 10000>
-					<cfthrow message="After 10 seconds selenium server still not stopped">
+				<cfif getTickCount() - loopStart GT 30000>
+					<cfthrow message="After 30 seconds selenium server still not stopped">
 				</cfif>
 			</cfloop>
 			
