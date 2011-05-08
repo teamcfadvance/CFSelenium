@@ -10,7 +10,7 @@ component extends="cfselenium.CFSeleniumTestCase" {
 		assertEquals("bobsilverberg/CFSelenium - GitHub", selenium.getTitle());
 		selenium.click("link=readme.md");
 		selenium.waitForPageToLoad("30000");
-		assertEquals("readme.md at master from bobsilverberg's CFSelenium - GitHub", selenium.getTitle());
+		assertEquals("bobsilverberg/cfselenium - github", selenium.getTitle());
 		selenium.click("raw-url");
 		selenium.waitForPageToLoad("30000");
 		assertEquals("", selenium.getTitle());
