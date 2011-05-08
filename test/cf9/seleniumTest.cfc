@@ -2,9 +2,18 @@ component extends="cfselenium.CFSeleniumTestCase" {
 
 	function setUp() {
 		browserUrl = "http://wiki.mxunit.org/";
-        super.setUp();
+		browserCommand = "*firefox";
+       	selenium = createobject("component","CFSelenium.selenium").init(browserUrl,"localhost", 4444, browserCommand);
+       	assertEquals(0, len(selenium.getSessionId()));
+        selenium.start();
+	    assertFalse(len(selenium.getSessionId()) eq 0);
 	}
 	
+	function tearDown() {   
+    	selenium.stop();
+    	assertEquals(0, len(selenium.getSessionId()));
+    }
+    
     function shouldBeAbleToStartAndStopABrowser() {
     	// the asserts for this are in setUp and tearDown
 	}
