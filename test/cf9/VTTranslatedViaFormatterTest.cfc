@@ -1,14 +1,8 @@
-component extends="mxunit.framework.TestCase" displayName="EndToEndServernewValidations" {
+component extends="cfselenium.CFSeleniumTestCase" displayName="EndToEndServernewValidations" {
 
     public void function setUp() {
         browserUrl = "http://localhost/validatethis/samples/StructureDemo/index.cfm";
-        selenium = new CFSelenium.selenium(browserUrl);
-        selenium.start();
-        selenium.setTimeout(30000);
-    }
-
-    public void function tearDown() {
-        selenium.stop();
+        super.setUp();
     }
 
     public void function testEndToEndServernewValidations() {
