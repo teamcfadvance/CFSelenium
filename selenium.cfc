@@ -16,18 +16,15 @@
 	limitations under the License.
 	*/
 
-	property string host;
-	property numeric port;
-	property string browserStartCommand;
-	property string browserURL;
-	property string sessionId;
-	property string extensionJs;
-	
-	public any function init (required string browserURL, string host = "localhost", numeric port = 4444, string browserStartCommand = "*firefox") {
-		
+	public any function init (required string browserURL, string host = "localhost", numeric port = 4444, string browserStartCommand = "*firefox", 
+		numeric executionDelay = 200, string seleniumJarPath = "/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar", boolean verbose = false, string seleniumServerArguments) {
+
 		structAppend(variables,arguments,true);
 		variables.sessionId = "";
 		variables.extensionJs = "";
+		
+		arguments.selenium = this;
+		variables.server = createObject("component","server").init(argumentCollection=arguments).startServer();
 		return this;
 		
 	}
@@ -163,6 +160,16 @@
 		doCommand("testComplete");
         variables.sessionId = "";
 	}
+
+	public boolean function serverIsRunning() {
+		try {
+			doCommand("testComplete");		
+		}
+		catch (any e) {
+			return false;
+		}
+		return true;
+	}	
 	
 	public void function click(required string locator) hint="Clicks on a link, button, checkbox or radio button. If the click action causes a new page to load (like a link usually does), call waitForPageToLoad." {
 		doCommand("click",[arguments.locator]);    
