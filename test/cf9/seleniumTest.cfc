@@ -1,11 +1,11 @@
 component extends="cfselenium.CFSeleniumTestCase" {
 
-	function setUp() {
+	function beforeTests() {
 		browserUrl = "http://wiki.mxunit.org/";
 		browserCommand = "*firefox";
-       	selenium = createobject("component","CFSelenium.selenium").init(browserUrl,"localhost", 4444, browserCommand);
+       	selenium = createobject("component","CFSelenium.selenium").init("localhost", 4444);
        	assertEquals(0, len(selenium.getSessionId()));
-        selenium.start();
+        selenium.start(browserUrl,browserCommand);
 	    assertFalse(len(selenium.getSessionId()) eq 0);
 	}
 	
