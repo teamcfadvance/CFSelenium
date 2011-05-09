@@ -17,7 +17,7 @@
 	*/
 
 	public any function init (string host = "localhost", numeric port = 4444, 
-		numeric executionDelay = 200, string seleniumJarPath = "/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar", boolean verbose = false, string seleniumServerArguments) {
+		numeric executionDelay = 200, string seleniumJarPath = "/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar", boolean verbose = false, string seleniumServerArguments = "") {
 
 		structAppend(variables,arguments,true);
 		variables.sessionId = "";
@@ -29,6 +29,10 @@
 		
 	}
 
+	public string function getSessionId() {
+		return variables.sessionId;
+	}
+	
 	public any function doCommand(required string command, array args = arrayNew(1)) {
 		
 		var connection = new http(url="http://" & variables.host & ":" & variables.port & "/selenium-server/driver/",charset="utf-8",method="POST");
@@ -166,7 +170,9 @@
 			doCommand("testComplete");		
 		}
 		catch (any e) {
-			return false;
+			if (e.message contains "Connection Failure") {
+				return false;
+			}
 		}
 		return true;
 	}	
