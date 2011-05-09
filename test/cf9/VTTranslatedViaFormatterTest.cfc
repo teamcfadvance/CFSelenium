@@ -1,8 +1,8 @@
 component extends="cfselenium.CFSeleniumTestCase" displayName="EndToEndServernewValidations" {
 
-    public void function setUp() {
+    public void function beforeTests() {
         browserUrl = "http://localhost/validatethis/samples/StructureDemo/index.cfm";
-        super.setUp();
+        super.beforeTests();
     }
 
     public void function testEndToEndServernewValidations() {

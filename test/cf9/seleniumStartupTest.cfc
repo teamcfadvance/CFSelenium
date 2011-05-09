@@ -1,26 +1,27 @@
 component extends="cfselenium.CFSeleniumTestCase"   {
 
-	function setUp() {
+	function beforeTests() {
+		selenium = createObject("component", "cfselenium.selenium").init();
 		browserUrl = "http://wiki.mxunit.org/";
 	}
 
     function shouldBeAbleToStartFirefox() {
-		startSelenium(browserUrl,"*firefox");
+		selenium.start(browserUrl,"*firefox");
 	}
 	
     function shouldBeAbleToStartSafari() {
-		startSelenium(browserUrl,"*safari");
+		selenium.start(browserUrl,"*safari");
 	}
 	
     function shouldBeAbleToStartGoogleChrome() {
-		startSelenium(browserUrl,"*googlechrome");
+		selenium.start(browserUrl,"*googlechrome");
 	}
 	
     function shouldBeAbleToStartIEOnWindowsVM() {
     	hostname = "192.168.56.101";
-	    selenium = createobject("component","selenium").init(browserUrl,hostname, 4444, "*iexplore");
+	    selenium = createobject("component","cfselenium.selenium").init(hostname, 4444);
 	    assertTrue(len(selenium.getSessionId()) eq 0);
-        selenium.start();
+        selenium.start(browserUrl, "*iexplore");
 	    assertFalse(len(selenium.getSessionId()) eq 0);
 	}
 	
