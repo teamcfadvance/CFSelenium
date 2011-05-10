@@ -3,8 +3,8 @@
  xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <Description about="urn:mozilla:install-manifest">
     <em:id>cfml-formatters@silverwareconsulting.com</em:id>
-    <em:name>Selenium IDE: CFML Formatters</em:name>
-    <em:version>1.0</em:version>
+    <em:name>Selenium IDE: CFML Formatter</em:name>
+    <em:version>1.2</em:version>
     <em:creator>Bob Silverberg</em:creator>
     <em:description>A plugin to add CFML (ColdFusion) formatters to Selenium-IDE</em:description>
     <em:type>2</em:type> <!-- type extension -->
