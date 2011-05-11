@@ -18,16 +18,22 @@ Optionally, start the Selenium-RC server.  Selenium.cfc will automatically start
 
 Create an instance of selenium.cfc, passing in the beginning url for your test:
 
-	selenium = new selenium("http://github.com/");
+	selenium = new selenium();
 
-You can also pass the host, port and browser command into the construtcor, which default to localhost, 4444, and *firefox, respectively:
+You can also pass the host and port into the constructor, which default to localhost and 4444:
 	
-	selenium = new selenium("http://github.com/", "localhost", 4444, "*firefox");
+	selenium = new selenium("localhost", 4444);
+
+To start up a browser, call selenium.start() passing in the starting url and, optionally, a browser command telling it which browser to start (the default is *firefox):
+
+	selenium.start("http://github.com/");
+
+To start a different browser (e.g., Google Chrome), pass in the browser command too:
+
+	selenium.start("http://github.com/","*googlechrome");
 
 Call methods on the selenium object to drive the browser and check values. For example:
 	
-	selenium = new selenium("http://github.com/");
-	selenium.start();
 	selenium.open("/bobsilverberg/CFSelenium");
 	assertEquals("bobsilverberg/CFSelenium - GitHub", selenium.getTitle());
 	selenium.click("link=readme.md");
@@ -37,6 +43,9 @@ Call methods on the selenium object to drive the browser and check values. For e
 	selenium.waitForPageToLoad("30000");
 	assertEquals("", selenium.getTitle());
 	assertTrue(selenium.isTextPresent("[CFSelenium]"));
+
+You can shut down the browser using the stop() method:
+
 	selenium.stop();
 
 ### A Selenium-IDE Formatter Too ###
