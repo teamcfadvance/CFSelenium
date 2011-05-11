@@ -1,6 +1,6 @@
 component extends="cfselenium.CFSeleniumTestCase" {
 
-	function beforeTests() {
+	public void function beforeTests() {
 		browserUrl = "http://wiki.mxunit.org/";
 		browserCommand = "*firefox";
        	selenium = createobject("component","CFSelenium.selenium").init("localhost", 4444);
