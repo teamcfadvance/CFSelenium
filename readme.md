@@ -12,13 +12,16 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native client librar
 
 ### Usage ###
 
-Start the Selenium-RC server.  For example:
+Preferred: Write your UI tests to extend cfselenium.CFSeleniumTestCase, which will start and stop the Selenium RC before and after all tests in a TestCase. For example:
+	component extends="cfselenium.CFSeleniumTestCase" ...
+
+Alternate: Start the Selenium-RC server from the shell. For example:
     java -jar selenium-server-standalone-2.0b2.jar
 
 Create an instance of selenium.cfc, passing in the beginning url for your test:
     selenium = new selenium("http://github.com/");
 
-You can also pass the host, port and browser command into the construtcor, which default to localhost, 4444, and *firefox, respectively:
+You can also pass the host, port and browser command into the constructor, which default to localhost, 4444, and *firefox, respectively:
 	selenium = new selenium("http://github.com/", "localhost", 4444, "*firefox");
 
 Call methods on the selenium object to drive the browser and check values. For example:

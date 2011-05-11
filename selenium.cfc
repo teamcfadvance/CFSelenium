@@ -16,22 +16,23 @@
 	limitations under the License.
 	*/
 
-	property string host;
-	property numeric port;
-	property string browserStartCommand;
-	property string browserURL;
-	property string sessionId;
-	property string extensionJs;
-	
-	public any function init (required string browserURL, string host = "localhost", numeric port = 4444, string browserStartCommand = "*firefox") {
-		
+	public any function init (string host = "localhost", numeric port = 4444, 
+		numeric executionDelay = 200, string seleniumJarPath = "/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar", boolean verbose = false, string seleniumServerArguments = "") {
+
 		structAppend(variables,arguments,true);
 		variables.sessionId = "";
-		variables.extensionJs = "";
+		
+		arguments.selenium = this;
+		variables.server = createObject("component","server").init(argumentCollection=arguments);
+		variables.server.startServer();
 		return this;
 		
 	}
 
+	public string function getSessionId() {
+		return variables.sessionId;
+	}
+	
 	public any function doCommand(required string command, array args = arrayNew(1)) {
 		
 		var connection = new http(url="http://" & variables.host & ":" & variables.port & "/selenium-server/driver/",charset="utf-8",method="POST");
@@ -52,7 +53,7 @@
 		if (left(response,2) eq "OK") {
 			return response;
 		}
-		throw "The Response of the Selenium RC is invalid: #response#";
+		throw("The Response of the Selenium RC is invalid: #response#");
 		
 	}
 	
@@ -140,9 +141,9 @@
 		
 	}
 
-	public any function start(array browserConfigurationOptions = arrayNew(1)) {
+	public any function start(required string browserURL, string browserStartCommand = "*firefox", string extensionJs = "",	browserConfigurationOptions = arrayNew(1)) {
 		
-		var startArgs = [variables.browserStartCommand, variables.browserURL, variables.extensionJs];
+		var startArgs = [arguments.browserStartCommand, arguments.browserURL, arguments.extensionJs];
 		var i = 0;
 		var result = "";
 		
@@ -163,6 +164,23 @@
 		doCommand("testComplete");
         variables.sessionId = "";
 	}
+
+	public boolean function serverIsRunning() {
+		try {
+			doCommand("testComplete");		
+		}
+		catch (any e) {
+			if (e.message contains "Connection Failure") {
+				return false;
+			}
+		}
+		return true;
+	}	
+	
+	public void function stopServer() {
+		// I will only stop the server if I also started the server
+		variables.server.stopServer();
+	}	
 	
 	public void function click(required string locator) hint="Clicks on a link, button, checkbox or radio button. If the click action causes a new page to load (like a link usually does), call waitForPageToLoad." {
 		doCommand("click",[arguments.locator]);    

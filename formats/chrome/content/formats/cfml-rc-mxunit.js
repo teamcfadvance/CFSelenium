@@ -188,15 +188,11 @@ this.options = {
 
 options.getHeader = function() {
     var timeout = options['global.timeout'] || '30000';
-    return "component extends=\"mxunit.framework.TestCase\" displayName=\"${className}\" {\n\n"
-        + indents(1) + "public void function setUp() {\n"
+    return "component extends=\"cfselenium.CFSeleniumTestCase\" displayName=\"${className}\" {\n\n"
+        + indents(1) + "public void function beforeTests() {\n"
         + indents(2) + "browserUrl = \"enter_starting_url_here\";\n"
-        + indents(2) + "selenium = new CFSelenium.selenium(browserUrl);\n"
-        + indents(2) + "selenium.start();\n"
+        + indents(2) + "super.beforeTests();\n"
         + indents(2) + "selenium.setTimeout(" + timeout + ");\n"
-        + indents(1) + "}\n\n"
-        + indents(1) + "public void function tearDown() {\n"
-        + indents(2) + "selenium.stop();\n"
         + indents(1) + "}\n\n"
         + indents(1) + "public void function ${methodName}() {\n";
 }
