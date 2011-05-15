@@ -11,8 +11,9 @@
 	
 	<p>Instantiating selenium...</p>
 	
-	<cfset selenium= CreateObject("component","CFSelenium.selenium_tags").init("http://wiki.mxunit.org/","localhost", 4444, "*firefox")>
-	
+	<cfset browserUrl = "http://wiki.mxunit.org/">
+	<cfset browserCommand= "*firefox">
+	<cfset selenium= createObject("component","CFSelenium.selenium_tags").init("localhost", 4444)>
 	<cfset expected= 0>
 	<cfset actual= Len(selenium.getSessionId())>
 	
@@ -30,8 +31,7 @@
 	
 	<cfflush />
 	
-	<cfset selenium.start()>
-	
+	<cfset selenium.start(browserUrl,browserCommand)>
 	<cfset failureCondition= 0>
 	<cfset actual= Len(selenium.getSessionId())>
 	
@@ -136,6 +136,8 @@
 			<span class="failure">Failed</span>
 		</cfif>
 	</p>
+	
+	<cfset selenium.stopServer()>
 	
 	<p>DONE</p>
 	

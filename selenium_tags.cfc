@@ -26,14 +26,19 @@
 	<cfproperty type="string" name="extensionJs">
 	
 	<cffunction returntype="any" name="init">
-		<cfargument required="true" type="string" name="browserURL" />
 		<cfargument required="false" type="string" name="host" default="localhost" />
 		<cfargument required="false" type="numeric" name="port" default="4444" />
-		<cfargument required="false" type="string" name="browserStartCommand" default="firefox" />
+		<cfargument required="false" type="numeric" name="executionDelay" default="200" />
+		<cfargument required="false" type="string" name="seleniumJarPath" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar" />
+		<cfargument required="false" type="boolean" name="verbose" default="false" />
+		<cfargument required="false" type="string" name="seleniumServerArguments" default="" />
 		
 		<cfset structAppend(variables,arguments,true) />
 		<cfset variables.sessionId= "" />
-		<cfset variables.extensionJs= "" />
+		<cfset arguments.selenium= this />
+		<cfset variables.server= createObject("component","server").init(arguments.selenium,arguments.executionDelay,arguments.seleniumJarPath,arguments.verbose,arguments.seleniumServerArguments)>
+		<cfset variables.server.startServer()>
+		
 		<cfreturn this />
 	
 	</cffunction>
@@ -196,15 +201,18 @@
 	</cffunction>
 	
 	<cffunction returntype="any" name="start">
+		<cfargument required="true" type="string" name="browserURL" />
+		<cfargument required="false" type="string" name="browserStartCommand" default="*firefox" />
+		<cfargument required="false" type="string" name="extensionJs" default="" /> 
 		<cfargument required="false" type="array" name="browserConfigurationOptions" default="#ArrayNew(1)#" />
 		
 		<cfset var startArgs= ArrayNew(1) />
 		<cfset var i= 0 />
 		<cfset var result= "" />
 		
-		<cfset arrayAppend(startArgs,variables.browserStartCommand) />
-		<cfset arrayAppend(startArgs,variables.browserURL) />
-		<cfset arrayAppend(startArgs,variables.extensionJs) />
+		<cfset arrayAppend(startArgs,arguments.browserStartCommand) />
+		<cfset arrayAppend(startArgs,arguments.browserURL) />
+		<cfset arrayAppend(startArgs,arguments.extensionJs) />
 		
 		<cfloop index="i" from="1" to="#ArrayLen(arguments.browserConfigurationOptions)#">
 			<cfset ArrayAppend(startArgs,arguments.browserConfigurationOptions[i]) />
@@ -223,6 +231,24 @@
 	<cffunction returntype="void" name="stop">
 		<cfset doCommand("testComplete") />
 		<cfset variables.sessionId= "" />
+	</cffunction>
+	
+	<cffunction returntype="boolean" name="serverIsRunning">
+		<cftry>
+			<cfset doCommand("testComplete")>
+			<cfreturn true />
+			<cfcatch type="any">
+				<cfif Find("Connection Failure",cfcatch.message)>
+					<cfreturn false />
+				<cfelse>
+					<cfreturn true />
+				</cfif>
+			</cfcatch>
+		</cftry>
+	</cffunction>
+	
+	<cffunction returntype="void" name="stopServer">
+		<cfset variables.server.stopServer()>
 	</cffunction>
 	
 	<cffunction returntype="void" name="click" hint="Clicks on a link, button, checkbox or radio button. If the click action causes a new page to load (like a link usually does), call waitForPageToLoad.">

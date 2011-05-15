@@ -17,9 +17,9 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 	</cffunction>
 
 	<cffunction name="startServer" output="false">
+		<cfset var jarPath = "#expandPath(variables.seleniumJarPath)#">
+		<cfset var loopStart = getTickCount()>
 		<cfif not serverIsRunning()>
-			<cfset var jarPath = "#expandPath(variables.seleniumJarPath)#">
-			<cfset var loopStart = getTickCount()>
 			<cfset isRunning = false>
 			<cfset args = "-jar ""#jarPath#"" #variables.seleniumServerArguments#">
 			<cfset logStatus( text="!!!!    STARTING Selenium RC with jar path: #jarPath#!  args were: #args#." )/>
@@ -38,11 +38,10 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 	</cffunction>
 
 	<cffunction name="stopServer" output="false">
+		<cfset var loopStart = getTickCount()>
 		<!--- we only stop the server if we started it --->
 		<cfif variables.iStartedThisServer>
-			<cfset var loopStart = getTickCount()>
 			<cfset variables.selenium.shutDownSeleniumServer() />
-			
 			<!--- we need to give the server time to fully shutdown --->
 			<cfloop condition="serverIsRunning()">
 				<cfset sleep(variables.executionDelay)/>
