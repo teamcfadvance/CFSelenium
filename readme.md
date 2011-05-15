@@ -12,21 +12,28 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native client librar
 
 ### Usage ###
 
-Preferred: Write your UI tests to extend cfselenium.CFSeleniumTestCase, which will start and stop the Selenium RC before and after all tests in a TestCase. For example:
-	component extends="cfselenium.CFSeleniumTestCase" ...
+Optionally, start the Selenium-RC server.  Selenium.cfc will automatically start the Selenium-RC server for you in the background if it isn't already started. To start it manually, the command is similar to this:
 
-Alternate: Start the Selenium-RC server from the shell. For example:
-    java -jar selenium-server-standalone-2.0b2.jar
+	java -jar selenium-server-standalone-2.0b2.jar
 
-Create an instance of selenium.cfc, passing in the beginning url for your test:
-    selenium = new selenium("http://github.com/");
+Create an instance of selenium.cfc.
 
-You can also pass the host, port and browser command into the constructor, which default to localhost, 4444, and *firefox, respectively:
-	selenium = new selenium("http://github.com/", "localhost", 4444, "*firefox");
+	selenium = new selenium();
+
+You can also pass the host and port into the constructor, which default to localhost and 4444:
+	
+	selenium = new selenium("localhost", 4444);
+
+To start up a browser, call selenium.start() passing in the starting url and, optionally, a browser command telling it which browser to start (the default is *firefox):
+
+	selenium.start("http://github.com/");
+
+To start a different browser (e.g., Google Chrome), pass in the browser command too:
+
+	selenium.start("http://github.com/","*googlechrome");
 
 Call methods on the selenium object to drive the browser and check values. For example:
-	selenium = new selenium("http://github.com/");
-	selenium.start();
+	
 	selenium.open("/bobsilverberg/CFSelenium");
 	assertEquals("bobsilverberg/CFSelenium - GitHub", selenium.getTitle());
 	selenium.click("link=readme.md");
@@ -36,7 +43,23 @@ Call methods on the selenium object to drive the browser and check values. For e
 	selenium.waitForPageToLoad("30000");
 	assertEquals("", selenium.getTitle());
 	assertTrue(selenium.isTextPresent("[CFSelenium]"));
+
+You can shut down the browser using the stop() method:
+
 	selenium.stop();
+
+### A Base Test Case for MXUnit ###
+
+Also included in the distribution is a base test case for MXUnit, called CFSeleniumTestCase.cfc. This is designed to instantiate the selenium.cfc for you and start up a browser session once, before all of your tests run, and shut down the browser after all the tests have completed. To use this base test case, simply extend it in your own test case:
+
+	component extends="CFSelenium.CFSeleniumTestCase"
+
+You will then want to place a beforeTests() method in your test case which sets the browserUrl and the calls the base test case's beforeTests() method:
+
+	public void function beforeTests(){
+		browserURL = "http://github.com/";
+		super.beforeTests();
+	}
 
 ### A Selenium-IDE Formatter Too ###
 
@@ -44,4 +67,6 @@ Also included in the distribution is a Firefox extension which will add a format
 
 ### Support ###
 
-The script-based version of CFSelenium is maintained by [Bob Silverberg](https://github.com/bobsilverberg) and the tag-based version is maintained by [Brian Swartzfager](https://github.com/bcswartz). Please use the main repo's [issue tracker](https://github.com/bobsilverberg/CFSelenium/issues) to report bugs and request enhancements.
+The script-based version of CFSelenium is maintained by [Bob Silverberg](https://github.com/bobsilverberg) and the tag-based version is maintained by [Brian Swartzfager](https://github.com/bcswartz). Thanks also to [Marc Esher](https://github.com/marcesher) for the logic which starts and stops the Selenium-RC server automatically.
+
+Please use the main repo's [issue tracker](https://github.com/bobsilverberg/CFSelenium/issues) to report bugs and request enhancements.
