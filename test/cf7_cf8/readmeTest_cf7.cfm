@@ -7,8 +7,11 @@
 <h2>readmeTest for CFSelenium on ColdFusion 7</h2>
 
 <cfoutput>
-	<cfset selenium= CreateObject("component","CFSelenium.selenium_tags").init("http://github.com/")>
-	<cfset selenium.start()>
+	<cfset browserUrl= "http://github.com">
+	<cfset browserCommand= "*firefox">
+	<cfset selenium= CreateObject("component","CFSelenium.selenium_tags").init()>
+	<cfset selenium.start(browserUrl,browserCommand)>
+	
 	<cfset selenium.open("/bobsilverberg/CFSelenium")>
 
 	<cfset expected= "bobsilverberg/CFSelenium - GitHub">
@@ -52,9 +55,17 @@
 	
 	<cfflush />
 	
-	<cfset selenium.click("raw-url")>
-	<cfset selenium.waitForPageToLoad("30000")>
-		
+	<!---For some reason, this would sometimes throw an error when used with CF9 and Firefox 4 on Windows 7.  Runs fine in CF7 and Firefox 3.6, and CF9 and Firefox 3.6 on a Mac.  Enclosing in try/catch as a precaution--->
+	
+	<cftry>
+		<cfset selenium.click("raw-url")>
+		<cfset selenium.waitForPageToLoad("30000")>
+		<cfset actual= selenium.getTitle()>
+		<cfcatch type="any">
+			<cfset actual= "Error occurred while trying to click raw link" />
+		</cfcatch>
+	</cftry>
+	
 	<cfset expected= "">
 	<cfset actual= selenium.getTitle()>
 	
@@ -82,6 +93,8 @@
 	</p>
 	
 	<p>DONE</p>
+	
 	<cfset selenium.stop()>
+	<cfset selenium.stopServer()>
 	
 </cfoutput>

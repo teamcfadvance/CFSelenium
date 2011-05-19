@@ -1,30 +1,17 @@
-<cfcomponent extends="mxunit.framework.TestCase">
+<cfcomponent extends="cfselenium.CFSeleniumTestCase_Tags" >
 
-	<cffunction name="setUp">
-		<cfset var browserUrl = "http://wiki.mxunit.org/">
-        <cfset selenium = startFireFox(browserUrl)>
+	<cffunction name="beforeTests">
+		<cfset browserUrl = "http://wiki.mxunit.org/">
+		<cfset browserCommand= "*firefox">
+		<cfset selenium= createObject("component","CFSelenium.selenium_tags").init("localhost", 4444)>
+        <cfset assertEquals(0, Len(selenium.getSessionId()))>
+		<cfset selenium.start(browserUrl,browserCommand)>
+		<cfset assertFalse(Len(selenium.getSessionId()) EQ 0)>
 	</cffunction>
 
 	<cffunction name="tearDown">
         <cfset selenium.stop()>
-	    <cfset assertTrue(len(selenium.getSessionId()) eq 0)>
-	</cffunction>
-	
-	<cffunction access="private" cfreturntype="any" name="startSelenium">
-		<cfargument name="browserUrl" type="string" required="true" />
-		<cfargument name="browserCommand" type="string" required="false" default="" />
-		<cfset var selenium = createobject("component","CFSelenium.selenium_tags").init(arguments.browserUrl,"localhost", 4444, arguments.browserCommand)>
-	    <cfset assertTrue(len(selenium.getSessionId()) eq 0)>
-        <cfset selenium.start()>
-	    <cfset assertFalse(len(selenium.getSessionId()) eq 0)>
-	    <cfreturn selenium>
-		
-	</cffunction>
-	
-	<cffunction access="private" returntype="any" name="startFireFox">
-		<cfargument name="browserUrl" type="string" required="true" />
-	    <cfreturn startSelenium(arguments.browserUrl,"*firefox")>
-		
+	    <cfset assertEquals(0, len(selenium.getSessionId()))>
 	</cffunction>
 	
     <cffunction name="shouldBeAbleToStartAndStopABrowser">
@@ -41,18 +28,21 @@
 		<cfset debug(selenium.parseCSV(input))>
 		<cfset assertEquals(expected,selenium.parseCSV(input))>
 		
+		<cfset selenium.open("/pages/viewpage.action?pageId=786471")>
+        <cfset debug(selenium.getAllLinks())>
+        <cfset debug(selenium.getLocation())>
+        <cfset debug(selenium.getBodyText())>
+		
 	</cffunction>
 
-	<cffunction name="testOpen">
+	<!---<cffunction name="testOpen">
 		
 		<cfset selenium.open("/pages/viewpage.action?pageId=786471")>
-       <!--- <cfset assertEndsWith("html/test_open.html", selenium.getLocation())> --->
-       <!--- <cfset assertEquals("This is a test of the open command.", selenium.getBodyText())> --->
         <cfset debug(selenium.getAllLinks())>
         <cfset debug(selenium.getLocation())>
         <cfset debug(selenium.getBodyText())>
 
-	</cffunction>
+	</cffunction>--->
 	
 </cfcomponent>
 
