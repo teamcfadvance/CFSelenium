@@ -36,7 +36,7 @@
 		<cfset structAppend(variables,arguments,true) />
 		<cfset variables.sessionId= "" />
 		<cfset arguments.selenium= this />
-		<cfset variables.server= createObject("component","server").init(arguments.selenium,arguments.executionDelay,arguments.seleniumJarPath,arguments.verbose,arguments.seleniumServerArguments)>
+		<cfset variables.server= createObject("component","server").init(this,arguments.executionDelay,arguments.seleniumJarPath,arguments.verbose,arguments.seleniumServerArguments)>
 		<cfset variables.server.startServer()>
 		
 		<cfreturn this />

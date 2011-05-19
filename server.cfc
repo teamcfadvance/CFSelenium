@@ -17,9 +17,10 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 	</cffunction>
 
 	<cffunction name="startServer" output="false">
-		<cfset var jarPath = "#expandPath(variables.seleniumJarPath)#">
+		<cfset var jarPath = "">
 		<cfset var loopStart = getTickCount()>
 		<cfif not serverIsRunning()>
+			<cfset jarPath= "#expandPath(variables.seleniumJarPath)#">
 			<cfset isRunning = false>
 			<cfset args = "-jar ""#jarPath#"" #variables.seleniumServerArguments#">
 			<cfset logStatus( text="!!!!    STARTING Selenium RC with jar path: #jarPath#!  args were: #args#." )/>
