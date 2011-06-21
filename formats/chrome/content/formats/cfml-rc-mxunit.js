@@ -43,7 +43,7 @@ function joinExpression(expression) {
 }
 
 function waitFor(expression) {
-        return "for (int second = 0;; second++) {\n" +
+        return "for (second = 0;; second++) {\n" +
                 "\tif (second >= 60) fail(\"timeout\");\n" +
                 "\ttry { " + (expression.setup ? expression.setup() + " " : "") +
                 "if (" + expression.toString() + ") break; } catch (Exception e) {}\n" +
