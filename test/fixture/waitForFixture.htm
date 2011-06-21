@@ -1,0 +1,23 @@
+<html>
+	<body>
+		<script src="//ajax.microsoft.com/ajax/jquery/jquery-1.5.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			function createElement() {
+				$('<div id="presentAfterAPause">presentAfterAPause</div>').appendTo("body");
+			}
+			function showElement() {
+				$("#becomesVisible").show();
+			}
+			function hideElement() {
+				$("#becomesInvisible").hide();
+			}
+		</script>
+		<div id="alwaysPresentAndVisible">alwaysPresentAndVisible</div>
+		<div id="neverVisible" style="display:none">neverVisible</div>
+		<div id="becomesVisible" style="display:none">becomesVisible</div>
+		<div id="becomesInvisible">becomesInvisible</div>
+		<a id="createElement" href="javascript:createElement();">Create an element</a>
+		<a id="showElement" href="javascript:showElement();">Show an element</a>
+		<a id="hideElement" href="javascript:hideElement();">Hide an element</a>
+	</body>
+</html>
