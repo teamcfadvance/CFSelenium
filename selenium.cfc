@@ -17,7 +17,8 @@
 	*/
 
 	public any function init (string host = "localhost", numeric port = 4444, 
-		numeric executionDelay = 200, string seleniumJarPath = "/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar", boolean verbose = false, string seleniumServerArguments = "") {
+		numeric executionDelay = 200, string seleniumJarPath = "/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar", boolean verbose = false, string seleniumServerArguments = "",
+		numeric waitTimeout = 30000) {
 
 		structAppend(variables,arguments,true);
 		variables.sessionId = "";
@@ -56,7 +57,40 @@
 		throw("The Response of the Selenium RC is invalid: #response#");
 		
 	}
-	
+
+	public void function waitForElementPresent(required string locator, numeric timeout = variables.waitTimeout) {
+		var counter = 0;
+		while (not isElementPresent(arguments.locator)) {
+			sleep(100);
+			counter += 100;
+			if (counter eq arguments.timeout) {
+				throw (type="CFSelenium.elementNotFound", message="The element: #arguments.locator# was not found after #arguments.timeout/1000# seconds.");
+			}
+		}
+	}
+
+	public void function waitForElementVisible(required string locator, numeric timeout = variables.waitTimeout) {
+		var counter = 0;
+		while (not isVisible(arguments.locator)) {
+			sleep(100);
+			counter += 100;
+			if (counter eq arguments.timeout) {
+				throw (type="CFSelenium.elementNotVisible", message="The element: #arguments.locator# was not visible after #arguments.timeout/1000# seconds.");
+			}
+		}
+	}
+
+	public void function waitForElementNotVisible(required string locator, numeric timeout = variables.waitTimeout) {
+		var counter = 0;
+		while (isVisible(arguments.locator)) {
+			sleep(100);
+			counter += 100;
+			if (counter eq arguments.timeout) {
+				throw (type="CFSelenium.elementStillVisible", message="The element: #arguments.locator# was still visible after #arguments.timeout/1000# seconds.");
+			}
+		}
+	}
+
 	public string function getString(required string command, array args = arrayNew(1)) {
 		
 		var result = doCommand(argumentCollection=arguments);
