@@ -45,47 +45,6 @@
 		</cfif>
 	</p>
 	
-	<p>Opening particular wiki page...</p>
-	<cfflush />
-	
-	<cfset selenium.open("/pages/viewpage.action?pageId=786471")>
-	
-	<cfset linkArray= selenium.getAllLinks()>
-	<p class="resultBlock">
-		<span class="subhead">Hyperlinks on page (array)</span>
-		<cfdump var="#linkArray#">
-		<br />
-		<cfif arrayLen(linkArray) GT 0>
-			<span class="success">Passed</span>
-		<cfelse>
-			<span class="failure">Failed</span>
-		</cfif>
-	</p>
-	
-	<cfset locationString= selenium.getLocation()>
-	<p class="resultBlock">
-		<span class="subhead">Absolute URL (string)</span>
-		<cfdump var="#locationString#">
-		<br />
-		<cfif Len(locationString) GT 0>
-			<span class="success">Passed</span>
-		<cfelse>
-			<span class="failure">Failed</span>
-		</cfif>
-	</p>
-		
-	<cfset bodyText= selenium.getBodyText()>
-	<p class="resultBlock">
-		<span class="subhead">Body text of page (string)</span>
-		<cfdump var="#bodyText#">
-		<br />
-		<cfif Len(bodyText) GT 0>
-			<span class="success">Passed</span>
-		<cfelse>
-			<span class="failure">Failed</span>
-		</cfif>
-	</p>
-	
 	<p>Testing parsing of comma-separated values...</p>
 	
 	<cfflush />

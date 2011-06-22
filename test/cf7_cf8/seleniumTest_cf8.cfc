@@ -34,15 +34,6 @@
         <cfset debug(selenium.getBodyText())>
 		
 	</cffunction>
-
-	<!---<cffunction name="testOpen">
-		
-		<cfset selenium.open("/pages/viewpage.action?pageId=786471")>
-        <cfset debug(selenium.getAllLinks())>
-        <cfset debug(selenium.getLocation())>
-        <cfset debug(selenium.getBodyText())>
-
-	</cffunction>--->
 	
 </cfcomponent>
 

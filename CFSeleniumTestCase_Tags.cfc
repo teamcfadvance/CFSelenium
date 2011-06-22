@@ -13,6 +13,7 @@
 	<cffunction name="afterTests" output="false" access="public" returntype="any" hint="">
 		<!--- NOTE: this will only stop the Java if it was started by this test case --->
 		<cfset variables.selenium.stop() />
+		<!--- NOTE: this will only stop the Java server if it was started by this test case --->
 		<cfset variables.selenium.stopServer() />
 	</cffunction>
 	

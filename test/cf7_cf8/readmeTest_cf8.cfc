@@ -11,7 +11,7 @@
 		<cfset assertEquals("bobsilverberg/CFSelenium - GitHub", selenium.getTitle())>
 		<cfset variables.selenium.click("link=readme.md")>
 		<cfset variables.selenium.waitForPageToLoad("30000")>
-		<cfset sleep(5000)>
+		<cfset sleep(1000)>
 		<cfset assertEquals("readme.md at master from bobsilverberg/cfselenium - github", variables.selenium.getTitle())>
 		<cfset variables.selenium.click("raw-url")>
 		<cfset variables.selenium.waitForPageToLoad("30000")>

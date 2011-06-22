@@ -36,6 +36,9 @@
 	<cfset selenium.click("link=readme.md")>
 	<cfset selenium.waitForPageToLoad("30000")>
 		
+	<cfset thread= CreateObject("java","java.lang.Thread") />
+	<cfset thread.sleep(1000) />
+	
 	<cfset expected= "readme.md at master from bobsilverberg/CFSelenium - GitHub">
 	<cfset actual= selenium.getTitle()>
 		
