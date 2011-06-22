@@ -32,6 +32,7 @@
 		<cfargument required="false" type="string" name="seleniumJarPath" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar" />
 		<cfargument required="false" type="boolean" name="verbose" default="false" />
 		<cfargument required="false" type="string" name="seleniumServerArguments" default="" />
+		<cfargument required="false" type="numeric" name="waitTimeout" default="30000" />
 		
 		<cfset structAppend(variables,arguments,true) />
 		<cfset variables.sessionId= "" />
@@ -97,6 +98,51 @@
 		
 		<cfthrow message="The Response of the Selenium RC is invalid: #response#" />
 		
+	</cffunction>
+	
+	<cffunction returntype="void" name="waitForElementPresent">
+		<cfargument required="true" type="string" name="locator" />
+		<cfargument required="false" type="numeric" name="timeout" default="#variables.waitTimeout#" />
+		<cfset var counter= 0>
+		<cfset var thread= "">
+		<cfloop condition="Not isElementPresent(arguments.locator)">
+			<cfset thread= CreateObject("java","java.lang.Thread") />
+			<cfset thread.sleep(100) />
+			<cfset counter= counter+100>
+			<cfif counter EQ arguments.timeout>
+				<cfthrow type="CFSelenium.elementNotFound" message="The element: #arguments.locator# was not found after #arguments.timeout/1000# seconds." / >
+			</cfif>
+		</cfloop> 
+	</cffunction>
+
+	<cffunction returntype="void" name="waitForElementVisible">
+		<cfargument required="true" type="string" name="locator" />
+		<cfargument required="false" type="numeric" name="timeout" default="#variables.waitTimeout#" />
+		<cfset var counter= 0>
+		<cfset var thread= "">
+		<cfloop condition="Not isVisible(arguments.locator)">
+			<cfset thread= CreateObject("java","java.lang.Thread") />
+			<cfset thread.sleep(100) />
+			<cfset counter= counter+100>
+			<cfif counter EQ arguments.timeout>
+				<cfthrow type="CFSelenium.elementNotVisible" message="The element: #arguments.locator# was not visible after #arguments.timeout/1000# seconds." / >
+			</cfif>
+		</cfloop> 
+	</cffunction>
+
+	<cffunction returntype="void" name="waitForElementNotVisible">
+		<cfargument required="true" type="string" name="locator" />
+		<cfargument required="false" type="numeric" name="timeout" default="#variables.waitTimeout#" />
+		<cfset var counter= 0>
+		<cfset var thread= "">
+		<cfloop condition="isVisible(arguments.locator)">
+			<cfset thread= CreateObject("java","java.lang.Thread") />
+			<cfset thread.sleep(100) />
+			<cfset counter= counter+100>
+			<cfif counter EQ arguments.timeout>
+				<cfthrow type="CFSelenium.elementStillVisible" message="The element: #arguments.locator# was still visible after #arguments.timeout/1000# seconds." / >
+			</cfif>
+		</cfloop> 
 	</cffunction>
 
 	<cffunction returntype="string" name="getString">
