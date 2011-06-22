@@ -27,16 +27,5 @@ component extends="cfselenium.CFSeleniumTestCase" {
 		
 	}
 
-	function testOpen() {
-		
-		selenium.open("/pages/viewpage.action?pageId=786471");
-        //assertEndsWith("html/test_open.html", selenium.getLocation());
-        //assertEquals("This is a test of the open command.", selenium.getBodyText());
-        debug(selenium.getAllLinks());
-        debug(selenium.getLocation());
-        debug(selenium.getBodyText());
-
-	}
-	
 }
 
