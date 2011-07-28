@@ -29,7 +29,7 @@
 		<cfargument required="false" type="string" name="host" default="localhost" />
 		<cfargument required="false" type="numeric" name="port" default="4444" />
 		<cfargument required="false" type="numeric" name="executionDelay" default="200" />
-		<cfargument required="false" type="string" name="seleniumJarPath" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar" />
+		<cfargument required="false" type="string" name="seleniumJarPath" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.2.0.jar" />
 		<cfargument required="false" type="boolean" name="verbose" default="false" />
 		<cfargument required="false" type="string" name="seleniumServerArguments" default="" />
 		<cfargument required="false" type="numeric" name="waitTimeout" default="30000" />

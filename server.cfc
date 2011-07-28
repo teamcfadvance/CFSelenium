@@ -6,7 +6,7 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 	<cffunction name="init" output="false" access="public" returntype="any" hint="">
 		<cfargument name="selenium" type="any" required="true" />
 		<cfargument name="executionDelay" type="numeric" required="false" default="200"/>
-		<cfargument name="seleniumJarPath" type="string" required="false" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.0b2.jar"/>
+		<cfargument name="seleniumJarPath" type="string" required="false" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.2.0.jar"/>
 		<cfargument name="verbose" type="boolean" required="false" default="false"/>
 		<cfargument name="seleniumServerArguments" type="string" required="false" default=""/>
 	
