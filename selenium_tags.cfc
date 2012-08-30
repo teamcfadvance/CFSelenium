@@ -281,7 +281,7 @@
 			<cfset doCommand("testComplete")>
 			<cfreturn true />
 			<cfcatch type="any">
-				<cfif Find("Connection Failure",cfcatch.message)>
+				<cfif Find("Connection Fail",cfcatch.message)>
 					<cfreturn false />
 				<cfelse>
 					<cfreturn true />
