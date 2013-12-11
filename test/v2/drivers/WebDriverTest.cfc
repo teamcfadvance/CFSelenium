@@ -11,22 +11,22 @@
 		variables.driver = selenium.getDriver();
 	}
 	
-	public function testIEGet() {
+	public function IEGetTest() {
 		// set ie driver
 		variables.driver = updateDriverByType( variables.selenium, "ie" );
 
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 		assertEquals( local.url, variables.driver.getCurrentURL() );
 		variables.driver.close();
 		variables.driver.quit();
 	}
 	
-	public function testIEClose() {
+	public function IECloseTest() {
 		// set ie driver
 		variables.driver = updateDriverByType( variables.selenium, "ie" );
 
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 		variables.driver.close();
 		// now try opening a page to make sure "browser" has actually closed
@@ -39,20 +39,20 @@
 		}
 	}
 	
-	public function testFirefoxGet() {
+	public function firefoxGetTest() {
 		// set firefox driver
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "https://www.google.com/";
 		variables.driver.get( local.url );
 		assertEquals( local.url, variables.driver.getCurrentURL() );
 		variables.driver.quit();
 	}
 	
-	public function testFirefoxClose() {
+	public function firefoxCloseTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 		variables.driver.close();
 		// now try opening a page to make sure "browser" has actually closed
@@ -66,23 +66,23 @@
 	}
 	
 	public function findElementByIdTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
-		local.webElement = variables.driver.findElementById( "Agreement" );
+		local.webElement = variables.driver.findElementById( "gsr" );
 
-		local.expected = 'div';
+		local.expected = 'body';
 		local.actual = local.webElement.getTagName();
 
 		assertEquals( local.expected, local.actual );
 	}
 	
 	public function missingElementByIdTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
 		// search for bad ID
@@ -95,12 +95,12 @@
 	}
 	
 	public function findElementByNameTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
-		local.webElement = variables.driver.findElementByName( "chkYesNo" );
+		local.webElement = variables.driver.findElementByName( "output" );
 
 		local.expected = 'input';
 		local.actual = local.webElement.getTagName();
@@ -109,9 +109,9 @@
 	}
 	
 	public function missingElementByNameTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
 		// search for bad name
@@ -124,9 +124,10 @@
 	}
 	
 	public function findMultipleElementsByNameTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		// this will only pass for sites with the same "name=" elements such as multiple checkboxes or radio buttons
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
 		local.webElements = variables.driver.findElementsByName( "chkYesNo" );
@@ -138,9 +139,9 @@
 	}
 
 	public function missingElementsFindMultipleElementsByNameTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
 		local.webElements = variables.driver.findElementsByName( "badName" );
@@ -152,12 +153,12 @@
 	}
 	
 	public function findElementByNameAndValueTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
-		local.webElements = variables.driver.findElementByNameAndValue( "chkYesNo", 1 );
+		local.webElements = variables.driver.findElementByNameAndValue( "output", "search" );
 
 		local.expected = true;
 		local.actual = local.webElements.foundWebElement();
@@ -166,12 +167,12 @@
 	}
 
 	public function missingFindElementByNameAndValueTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
-		local.webElements = variables.driver.findElementByNameAndValue( "chkYesNo", 2 );
+		local.webElements = variables.driver.findElementByNameAndValue( "output", "notAValue" );
 
 		local.expected = false;
 		local.actual = local.webElements.foundWebElement();
@@ -180,41 +181,38 @@
 	}
 	
 	public function getTitleTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
-		local.expected = "Recruitmax ProStaff Web Edition";
+		local.expected = "Google";
 		local.actual = variables.driver.getTitle();
 
 		assertEquals( local.expected, local.actual );
 	}
 	
-	// need a link to test this
-	/*public function findElementByLinkTextText() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+	public function findElementByLinkTextTest() {
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
-		local.webElement = variables.driver.findElementByLinkText( 'marketing@kforce.com' );
+		local.webElement = variables.driver.findElementByLinkText( 'Install Google Chrome' );
 
-		assertTrue( local.webElement.foundWebElement(), 'link text not found' );
-	}*/
+		assertTrue( local.webElement.foundWebElement(), '"Install Google Chrome" link text not found' );
+	}
 	
-	// need to add a class to main login page to test this
-	/*public function findElementsByClassTest() {
-		variables.driver = updateDriverByType( variables.selenium, "ie" );
+	public function findElementsByClassTest() {
+		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://rmdev.kforce.com/";
+		local.url = "http://www.google.com/";
 		variables.driver.get( local.url );
 
-		local.expected = "Recruitmax ProStaff Web Edition";
-		local.actual = variables.driver.findElementsByClass( 'test' );
+		local.actual = variables.driver.findElementsByClass( 'padi' );
 
-		assertEquals( local.expected, local.actual );
-	}*/
+		assertTrue( arrayLen( local.actual ) > 0, 'class padi not found' );
+	}
 
 	public function tearDown() {
 		try {

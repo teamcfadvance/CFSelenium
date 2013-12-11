@@ -76,12 +76,24 @@ component displayname="WebDriver" output="true" {
 		return local.webElement;
 	}
 
-	// TODO - need to look at this, seems overly "variablized"
 	public WebElement function findElementByLinkText( required string text ) {
-		local.element = new WebElement();
-		variables.webElement = variables.driver.findElementByLinkText( arguments.text );
-		local.element.init( variables.webElement );
-		return local.element; 
+		local.webElement = new WebElement();
+		
+		try {
+			local.webElement.setWebElement( variables.driver.findElementByLinkText( arguments.text ) );
+			// error is thrown if element is not found, so set "found"
+			local.webElement.setFoundWebElement( true );
+		} catch( any error ) {
+			// "not found" error, so set not found
+			if ( error.type == "org.openqa.selenium.NoSuchElementException" ) {
+				local.webElement.setFoundWebElement( false );
+			// else we have some other error so rethrow it
+			} else {
+				rethrow;
+			}
+		}
+		
+		return local.webElement;
 	}
 
 	public string function getTitle() {
