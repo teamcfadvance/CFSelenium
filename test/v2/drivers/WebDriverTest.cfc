@@ -15,7 +15,7 @@
 		// set ie driver
 		variables.driver = updateDriverByType( variables.selenium, "ie" );
 
-		local.url = "http://www.google.com/";
+		local.url = "https://www.google.com/";
 		variables.driver.get( local.url );
 		assertEquals( local.url, variables.driver.getCurrentURL() );
 		variables.driver.close();
