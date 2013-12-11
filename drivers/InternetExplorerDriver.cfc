@@ -1,10 +1,10 @@
 ﻿component output="false" extends="WebDriver" {
   
 	public InternetExplorerDriver function init() {
-		//setInternetExplorerPath( expandPath("../../assets/IEDriverServer.exe") );
+		// the path must be set on the initial run per server instance, but can be disabled after that
+		//setInternetExplorerPath( expandPath("../../assets/IEDriverServer.exe") );  // <- 64 version.  Switch to IEDriverServer_32bit.exe for 32 bit version
+
 		//setUseExistingInternetExplorerInstance( "true" );
-		//local.service = createObject("java", "org.openqa.selenium.ie.InternetExplorerDriverService" );
-		//writedump(var=local.service.createDefaultService(),abort=true);
 		return super.init( driver=createObject( "java", "org.openqa.selenium.ie.InternetExplorerDriver" ).init(5555), driverType="Internet Explorer" );
 	}
 	
