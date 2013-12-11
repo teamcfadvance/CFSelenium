@@ -9,14 +9,14 @@
 <cfoutput>
 	<cfset browserUrl= "http://github.com">
 	<cfset browserCommand= "*firefox">
-	<cfset selenium= CreateObject("component","CFSelenium.selenium_tags").init()>
+	<cfset selenium= CreateObject("component","selenium_tags").init()>
 	<cfset selenium.start(browserUrl,browserCommand)>
 	
 	<cfset selenium.open("/bobsilverberg/CFSelenium")>
 
-	<cfset expected= "bobsilverberg/CFSelenium - GitHub">
-	<cfset actual= selenium.getTitle()>
-
+	<cfset expected = "bobsilverberg/CFSelenium · GitHub">
+	<cfset actual= variables.selenium.getTitle()>
+		
 	<p class="resultBlock">
 		Expected page title: #expected#<br />
 		Actual page title: #actual#<br />
@@ -39,7 +39,7 @@
 	<cfset thread= CreateObject("java","java.lang.Thread") />
 	<cfset thread.sleep(1000) />
 	
-	<cfset expected= "readme.md at master from bobsilverberg/CFSelenium - GitHub">
+	<cfset expected= "CFSelenium/readme.md at master · bobsilverberg/CFSelenium · GitHub">
 	<cfset actual= selenium.getTitle()>
 		
 	<p class="resultBlock">

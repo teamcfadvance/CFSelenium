@@ -13,7 +13,7 @@
 	
 	<cfset browserUrl = "http://wiki.mxunit.org/">
 	<cfset browserCommand= "*firefox">
-	<cfset selenium= createObject("component","CFSelenium.selenium_tags").init("localhost", 4444)>
+	<cfset selenium= createObject("component","selenium_tags").init("localhost", 4444)>
 	<cfset expected= 0>
 	<cfset actual= Len(selenium.getSessionId())>
 	

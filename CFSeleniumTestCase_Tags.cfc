@@ -2,7 +2,7 @@
 
 	<cffunction name="beforeTests" output="false" access="public" returntype="any" hint="">
 		<!--- NOTE: instantiating selenium will also start the Java if it was not already running --->
-		<cfset variables.selenium = createObject("component", "cfselenium.selenium_tags").init() />
+		<cfset variables.selenium = createObject("component", "selenium_tags").init() />
     	<!--- we rely on subclasses to specify browser URL OR override this and create a variable named selenium 
 			subclasses can optionally specify a browserCommand to override the default Firefox browser --->
 		<!--- This can be done in beforeTests OR setup --->

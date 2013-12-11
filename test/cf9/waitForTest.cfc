@@ -1,80 +1,86 @@
-component extends="cfselenium.CFSeleniumTestCase" {
+component extends="CFSeleniumTestCase" {
 
     public void function beforeTests() {
-        browserUrl = "http://localhost/CFSelenium/test/fixture/";
-		selenium = createObject("component", "cfselenium.selenium").init(waitTimeout=5000);
-    	selenium.start(browserUrl,"*firefox");
-        selenium.setTimeout(30000);
+    	// this will need to be modified to point to wherever you have your test server set up
+        browserUrl = "http://localhost/test/fixture/";
+		variables.selenium = createObject("component", "webSelenium").init(waitTimeout=5000);
+    	variables.selenium.start(browserUrl,"*firefox");
+        variables.selenium.setTimeout(30000);
     }
 
 	function setup() {
-        selenium.open("http://localhost/CFSelenium/test/fixture/waitForFixture.htm");
+    	// this will need to be modified to point to wherever you have your test server set up
+        variables.selenium.open("http://localhost/test/fixture/waitForFixture.htm");
 	}
 
 	function waitForElementPresentShouldFindElementThatIsAlreadyThere() {
 		
-		selenium.waitForElementPresent("alwaysPresentAndVisible");
-		assertEquals("alwaysPresentAndVisible",selenium.getText("alwaysPresentAndVisible"));
+		variables.selenium.waitForElementPresent("alwaysPresentAndVisible");
+		assertEquals("alwaysPresentAndVisible", variables.selenium.getText("alwaysPresentAndVisible"));
 		
 	}
 
-	function waitForElementPresentShouldThrowIfElementIsNeverThere() expectedException="CFSelenium.elementNotFound" {
+	function waitForElementPresentShouldThrowIfElementIsNeverThere() expectedException="elementNotFound" {
 		
-		selenium.waitForElementPresent("neverPresent");
+		variables.selenium.waitForElementPresent("neverPresent");
 		
 	}
 
 	function waitForElementPresentShouldFindElementThatAppears() {
 		
 		assertEquals(false,selenium.isElementPresent("presentAfterAPause"));
-		selenium.click("createElement");
-		selenium.waitForElementPresent("presentAfterAPause");
-		assertEquals("presentAfterAPause",selenium.getText("presentAfterAPause"));
+		variables.selenium.click("createElement");
+		variables.selenium.waitForElementPresent("presentAfterAPause");
+		assertEquals("presentAfterAPause", variables.selenium.getText("presentAfterAPause"));
 		
 	}
 
 	function waitForElementVisibleShouldFindElementThatIsAlreadyThere() {
 		
-		selenium.waitForElementVisible("alwaysPresentAndVisible");
-		assertEquals("alwaysPresentAndVisible",selenium.getText("alwaysPresentAndVisible"));
+		variables.selenium.waitForElementVisible("alwaysPresentAndVisible");
+		assertEquals("alwaysPresentAndVisible", variables.selenium.getText("alwaysPresentAndVisible"));
 		
 	}
 
-	function waitForElementVisibleShouldThrowIfElementIsNeverVisible() expectedException="CFSelenium.elementNotVisible" {
+	function waitForElementVisibleShouldThrowIfElementIsNeverVisible() expectedException="elementNotVisible" {
 		
-		selenium.waitForElementVisible("neverVisible");
+		variables.selenium.waitForElementVisible("neverVisible");
 		
 	}
 
 	function waitForElementVisibleShouldFindElementThatAppears() {
 		
-		assertEquals(false,selenium.isVisible("becomesVisible"));
-		selenium.click("showElement");
-		selenium.waitForElementVisible("becomesVisible");
-		assertEquals("becomesVisible",selenium.getText("becomesVisible"));
+		assertEquals(false, variables.selenium.isVisible("becomesVisible"));
+		variables.selenium.click("showElement");
+		variables.selenium.waitForElementVisible("becomesVisible");
+		assertEquals("becomesVisible", variables.selenium.getText("becomesVisible"));
 		
 	}
 
 	function waitForElementNotVisibleShouldSucceedIfElementIsAlreadyInvisible() {
 		
-		selenium.waitForElementNotVisible("neverVisible");
-		assertEquals("",selenium.getText("neverVisible"));
+		variables.selenium.waitForElementNotVisible("neverVisible");
+		assertEquals("", variables.selenium.getText("neverVisible"));
 		
 	}
 
-	function waitForElementNotVisibleShouldThrowIfElementIsAlwaysVisible() expectedException="CFSelenium.elementStillVisible" {
+	function waitForElementNotVisibleShouldThrowIfElementIsAlwaysVisible() expectedException="elementStillVisible" {
 		
-		selenium.waitForElementNotVisible("alwaysPresentAndVisible");
+		variables.selenium.waitForElementNotVisible("alwaysPresentAndVisible");
 		
 	}
 
 	function waitForElementNotVisibleShouldSucceedIfElementDisappears() {
 		
-		assertEquals(true,selenium.isVisible("becomesInvisible"));
-		selenium.click("hideElement");
-		selenium.waitForElementNotVisible("becomesInvisible");
-		assertEquals("",selenium.getText("becomesInvisible"));
+		assertEquals(true, variables.selenium.isVisible("becomesInvisible"));
+		variables.selenium.click("hideElement");
+		variables.selenium.waitForElementNotVisible("becomesInvisible");
+		assertEquals("", variables.selenium.getText("becomesInvisible"));
 		
+	}
+	
+	function afterTests() {
+		variables.selenium.stopServer();
 	}
 
 }
