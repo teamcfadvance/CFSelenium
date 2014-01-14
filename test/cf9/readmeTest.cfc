@@ -1,4 +1,4 @@
-component extends="CFSeleniumTestCase" {
+component extends="cfselenium.CFSeleniumTestCase" {
 
 	function beforeTests(){
 		browserURL = "http://github.com/";

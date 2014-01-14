@@ -2,13 +2,13 @@
 
 	public void function beforeTests() {
 		include "../functions.cfm";
-		variables.selenium = new selenium();
+		variables.selenium = new cfselenium.selenium();
 	}
 	
 	public function setup() {
 		// reset driver
 		variables.selenium.setDriverByType();
-		variables.driver = selenium.getDriver();
+		variables.driver = variables.selenium.getDriver();
 	}
 	
 	public function IEGetTest() {
