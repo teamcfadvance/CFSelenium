@@ -9,6 +9,7 @@ case $1 in
 esac
 
 MY_DIR=`dirname $0`
+echo "MY_DIR=$MY_DIR"
 source $MY_DIR/ci-helper-base.sh $1 $2
 
 case $1 in
