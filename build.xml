@@ -198,7 +198,7 @@ Valid values are:
       haltonerror="true" errorproperty="mxunit.error"
       failureproperty="mxunit.failed">
         <directory
-          componentPath="${test.project}/${test.dir}"
+          componentPath="${test.project}/${test.dir}/v2"
           packageName="${test.project}"
           path="${basedir}/${test.dir}/"
           recurse="true"
