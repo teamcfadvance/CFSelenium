@@ -200,7 +200,7 @@ Valid values are:
         <directory
           componentPath="${test.project}/${test.dir}"
           packageName="${test.project}"
-          path="${basedir}/${test.dir}/v2"
+          path="${basedir}/${test.dir}/"
           recurse="true"
           remoteMethod="run"/>
     </mxunittask>

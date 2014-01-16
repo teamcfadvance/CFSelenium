@@ -9,22 +9,22 @@
 		return this;
 	}
 	
-	public drivers.WebDriver function getDriver() {
+	public cfselenium.drivers.WebDriver function getDriver() {
 		return variables.driver;
 	}
 	
-	public void function setDriver( required WebDriver driver ) {
+	public void function setDriver( required cfselenium.drivers.WebDriver driver ) {
 		variables.driver = arguments.driver;
 	}
 	
 	public void function setDriverByType( string driverType="" ) {
 		// just implement Internet Explorer and firefox for now
 		if ( arguments.driverType == "ie" || arguments.driverType == "InternetExplorer" ) {
-			variables.driver = new drivers.InternetExplorerDriver();
+			variables.driver = new cfselenium.drivers.InternetExplorerDriver();
 		} else if ( arguments.driverType == "firefox" || arguments.driverType == "ff" ) {
-			variables.driver = new drivers.FireFoxDriver();
+			variables.driver = new cfselenium.drivers.FireFoxDriver();
 		} else {
-			variables.driver = new drivers.WebDriver();
+			variables.driver = new cfselenium.drivers.WebDriver();
 		}
 	}
 

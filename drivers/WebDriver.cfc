@@ -11,7 +11,7 @@
 
 component displayname="WebDriver" output="true" {
 
-	public WebDriver function init( any driver=createObject("java", "org.openqa.selenium.WebDriver"), string driverType="" ) {
+	public WebDriver function init( any driver=createObject("java", "org.openqa.selenium.WebDriver", "#ExpandPath('../../Selenium-RC/selenium-server-standalone-2.37.0.jar')#"), string driverType="" ) {
 		// this is the java selenium driver, not the CFC driver
 		setDriver( driver );
 		variables.webElement = "";

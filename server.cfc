@@ -30,7 +30,7 @@ PROPS: this is adapted from Joe Rinehart and Brian Kotek's work. Thanks, gents.
 			<cfloop condition="NOT serverIsRunning()">
 				<cfset sleep(variables.executionDelay)/>
 				<cfif getTickCount() - loopStart GT 30000>
-					<cfthrow message="After 30 seconds selenium server still not started">
+					<cfthrow message="After 30 seconds selenium server still not started - #jarPath#">
 				</cfif>
 			</cfloop>
 			<cfset variables.iStartedThisServer = true>
