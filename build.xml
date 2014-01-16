@@ -198,9 +198,9 @@ Valid values are:
       haltonerror="true" errorproperty="mxunit.error"
       failureproperty="mxunit.failed">
         <directory
-          componentPath="${test.project}/${test.dir}/v2"
+          componentPath="${test.project}/${test.dir}"
           packageName="${test.project}"
-          path="${basedir}/${test.dir}/"
+          path="${basedir}/${test.dir}/v2"
           recurse="true"
           remoteMethod="run"/>
     </mxunittask>
