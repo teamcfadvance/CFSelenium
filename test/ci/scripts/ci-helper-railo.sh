@@ -17,6 +17,9 @@ case $1 in
 		mv mxunit* railo/webapps/www/mxunit
 
 		ln -s $BUILD_DIR railo/webapps/www/$2
+		
+		chmod a+x railo/start
+		chmod a+x railo/stop
 
 		sed -i "s/jetty.port=8888/jetty.port=$SERVER_PORT/g" railo/start
 		sed -i "s/STOP.PORT=8887/STOP.PORT=$STOP_PORT/g" railo/start
