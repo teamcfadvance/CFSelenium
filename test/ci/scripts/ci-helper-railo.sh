@@ -17,6 +17,11 @@ case $1 in
 		mv mxunit* railo/webapps/www/mxunit
 
 		ln -s $BUILD_DIR railo/webapps/www/$2
+
+		echo "copy jar file to classpath for loading when server starts"
+		cp railo/webapps/www/$2/Selenium-RC/$SELENIUM_JAR railo/lib
+		
+		chmod a+x railo/lib/$SELENIUM_JAR
 		
 		chmod a+x railo/start
 		chmod a+x railo/stop

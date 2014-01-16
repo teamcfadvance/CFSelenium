@@ -26,6 +26,9 @@
   <!-- the directory containing your project web root, this will be symlinked
     in to the webserver.  Might be able to be left blank.  Necessary for "windows" builds -->
   <property name="build.dir" value="" />
+  
+  <!-- SELENIUM STANDALONE SERVER FILE -->
+  <property name="selenium.jar" value="selenium-server-standalone-2.37.0.jar" />
 
   <!-- PLATFORMS -->
 
@@ -100,6 +103,7 @@ Valid values are:
       <env key="MXUNIT_URL" value="${mxunit.url}" />
       <env key="SERVER_PORT" value="${server.port}" />
       <env key="STOP_PORT" value="${stop.port}" />
+	  <env key="SELENIUM_JAR" value="${selenium.jar}" />
       <arg line="${test.dir}/ci/scripts/ci-helper-${platform.helper}.sh install ${test.project}"/>
     </exec>
     <exec executable="cmd" failonerror="true" osfamily="windows">
@@ -109,6 +113,7 @@ Valid values are:
       <env key="MXUNIT_URL" value="${mxunit.url}" />
 	  <env key="BASE_DIR" value="${basedir}" />
 	  <env key="TEST_DIR" value="${test.dir}" />
+	  <env key="SELENIUM_JAR" value="${selenium.jar}" />
 	  <arg value="/k" />
       <arg value="${basedir}/${test.dir}/ci/scripts/ci-helper-${platform.helper}.bat install ${test.project}" />
     </exec>
