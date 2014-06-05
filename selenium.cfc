@@ -201,7 +201,7 @@
 			doCommand("testComplete");
 		}
 		catch (any e) {
-			if (e.message contains "Connection Failure") {
+			if (e.message contains "Connection Fail") {
 				return false;
 			}
 		}
