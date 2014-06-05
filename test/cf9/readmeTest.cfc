@@ -6,8 +6,8 @@ component extends="cfselenium.CFSeleniumTestCase" {
 	}
 
 	function testForReadmePage() {
-		selenium.open("/bobsilverberg/CFSelenium");
-		assertTrue(selenium.getTitle() contains "bobsilverberg/cfselenium");
+		selenium.open("/teamcfadvance/CFSelenium");
+		assertTrue(selenium.getTitle() contains "teamcfadvance/cfselenium");
 		selenium.click("link=readme.md");
 		selenium.waitForPageToLoad("30000");
 		sleep(1000);
