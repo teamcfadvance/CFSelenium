@@ -961,7 +961,7 @@
 		doCommand("setTimeout",[arguments.timeout]);
 	}
 
-	public void function waitForPageToLoad(required numeric timeout)
+	public void function waitForPageToLoad(numeric timeout = variables.waitTimeout)
 		hint="Waits for a new page to load.
 
         You can use this command instead of the 'AndWait' suffixes, 'clickAndWait', 'selectAndWait', 'typeAndWait' etc. (which are only available in the JS API).
@@ -971,7 +971,7 @@
 		doCommand("waitForPageToLoad",[arguments.timeout]);
 	}
 
-	public void function waitForFrameToLoad(required string frameAddress, required numeric timeout)
+	public void function waitForFrameToLoad(required string frameAddress, numeric timeout = variables.waitTimeout)
 		hint=" Waits for a new frame to load.
         Selenium constantly keeps track of new pages and frames loading, and sets a 'newPageLoaded' flag when it first notices a page load.
         See waitForPageToLoad for more information." {
