@@ -14,14 +14,14 @@ CFSelenium is a ColdFusion Component (CFC) which provides a native client librar
 
 Optionally, start the Selenium-RC server.  Selenium.cfc will automatically start the Selenium-RC server for you in the background if it isn't already started (note this does not work on CF7). To start it manually, the command is similar to this:
 
-	java -jar selenium-server-standalone-2.28.0.jar
+	java -jar selenium-server-standalone-2.42.1.jar
 
 Create an instance of selenium.cfc.
 
 	selenium = new selenium();
 
 You can also pass the host and port into the constructor, which default to localhost and 4444:
-	
+
 	selenium = new selenium("localhost", 4444);
 
 To start up a browser, call selenium.start() passing in the starting url and, optionally, a browser command telling it which browser to start (the default is *firefox):
@@ -33,7 +33,7 @@ To start a different browser (e.g., Google Chrome), pass in the browser command 
 	selenium.start("http://github.com/","*googlechrome");
 
 Call methods on the selenium object to drive the browser and check values. For example:
-	
+
 	selenium.open("/bobsilverberg/CFSelenium");
 	assertEquals("bobsilverberg/CFSelenium - GitHub", selenium.getTitle());
 	selenium.click("link=readme.md");
