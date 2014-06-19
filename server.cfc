@@ -23,7 +23,7 @@
 			<cfset isRunning = false>
 			<cfset args = "-jar ""#jarPath#"" #variables.seleniumServerArguments#">
 			<cfset logStatus( text="!!!!    STARTING Selenium RC with jar path: #jarPath#!  args were: #args#." )>
-			<cfexecute name="java" arguments="#args#">
+			<cfexecute name="java" arguments="#args#" />
 
 			<!--- we need to give the server time to fully start --->
 			<cfloop condition="NOT serverIsRunning()">
