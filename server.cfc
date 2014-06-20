@@ -20,6 +20,9 @@
 		<cfset var loopStart = getTickCount()>
 		<cfif not serverIsRunning()>
 			<cfset jarPath= "#expandPath(variables.seleniumJarPath)#">
+			<cfif not fileExists(jarPath)>
+				<cfthrow message="Could not find #jarPath#">
+			</cfif>
 			<cfset isRunning = false>
 			<cfset args = "-jar ""#jarPath#"" #variables.seleniumServerArguments#">
 			<cfset logStatus( text="!!!!    STARTING Selenium RC with jar path: #jarPath#!  args were: #args#." )>
