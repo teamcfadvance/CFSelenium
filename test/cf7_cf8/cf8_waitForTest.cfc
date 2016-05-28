@@ -4,7 +4,7 @@
 		<cfset variables.baseTestURL = mid(cgi.request_url, 1, findNoCase("/CFSelenium/test/", cgi.request_url)) & "CFSelenium/test/">
 		<cfset browserUrl = variables.baseTestURL & "fixture/">
 		<cfset browserCommand= "*firefox">
-		<cfset selenium= createObject("component","cfselenium.selenium_tags").init(waitTimeout=5000)>
+		<cfset selenium= createObject("component","selenium_tags").init(waitTimeout=5000)>
 		<cfset selenium.start(browserUrl,browserCommand)>
 		<cfset selenium.setTimeout(30000)>
 	</cffunction>
@@ -18,7 +18,7 @@
 		<cfset assertEquals("alwaysPresentAndVisible",selenium.getText("alwaysPresentAndVisible")) />
 	</cffunction>
 
-	<cffunction name="waitForElementPresentShouldThrowIfElementIsNeverThere" mxunit:expectedException="CFSelenium.elementNotFound">
+	<cffunction name="waitForElementPresentShouldThrowIfElementIsNeverThere" mxunit:expectedException="elementNotFound">
 		<cfset selenium.waitForElementPresent("neverPresent") />
 	</cffunction>
 
@@ -33,8 +33,8 @@
 		<cfset selenium.waitForElementVisible("alwaysPresentAndVisible") />
 		<cfset assertEquals("alwaysPresentAndVisible",selenium.getText("alwaysPresentAndVisible")) />
 	</cffunction>
-
-	<cffunction name="waitForElementVisibleShouldThrowIfElementIsNeverVisible" mxunit:expectedException="CFSelenium.elementNotVisible">
+	
+	<cffunction name="waitForElementVisibleShouldThrowIfElementIsNeverVisible" mxunit:expectedException="elementNotVisible">
 		<cfset selenium.waitForElementVisible("neverVisible") />
 	</cffunction>
 
@@ -49,8 +49,8 @@
 		<cfset selenium.waitForElementNotVisible("neverVisible") />
 		<cfset assertEquals("",selenium.getText("neverVisible")) />
 	</cffunction>
-
-	<cffunction name="waitForElementNotVisibleShouldThrowIfElementIsAlwaysVisible" mxunit:expectedException="CFSelenium.elementStillVisible">
+	
+	<cffunction name="waitForElementNotVisibleShouldThrowIfElementIsAlwaysVisible" mxunit:expectedException="elementStillVisible">
 		<cfset selenium.waitForElementNotVisible("alwaysPresentAndVisible") />
 	</cffunction>
 

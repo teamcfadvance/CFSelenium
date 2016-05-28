@@ -2,20 +2,20 @@ component extends="cfselenium.CFSeleniumTestCase" {
 
 	function beforeTests(){
 		browserURL = "http://github.com/";
-		super.beforeTests();
+		super.beforeTests( version=1, browserURL=browserURL );
 	}
 
 	function testForReadmePage() {
-		selenium.open("/teamcfadvance/CFSelenium");
-		assertTrue(selenium.getTitle() contains "teamcfadvance/cfselenium");
-		selenium.click("link=readme.md");
-		selenium.waitForPageToLoad("30000");
+		variables.selenium.open("/teamcfadvance/CFSelenium");
+		assertTrue(variables.selenium.getTitle() contains "teamcfadvance/cfselenium");
+		variables.selenium.click("link=readme.md");
+		variables.selenium.waitForPageToLoad("30000");
 		sleep(1000);
-		assertTrue(selenium.getTitle() contains "readme.md");
-		selenium.click("raw-url");
-		selenium.waitForPageToLoad("30000");
-		assertEquals("", selenium.getTitle());
-		assertTrue(selenium.isTextPresent("[CFSelenium]"));
+		assertTrue(variables.selenium.getTitle() contains "readme.md");
+		variables.selenium.click("raw-url");
+		variables.selenium.waitForPageToLoad("30000");
+		assertEquals("", variables.selenium.getTitle());
+		assertTrue(variables.selenium.isTextPresent("[CFSelenium]"));
 	}
 
 	

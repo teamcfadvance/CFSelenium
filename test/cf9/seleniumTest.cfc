@@ -1,9 +1,9 @@
-component extends="cfselenium.CFSeleniumTestCase" {
+component extends="CFSeleniumTestCase" {
 
 	public void function beforeTests() {
 		browserUrl = "http://wiki.mxunit.org/";
 		browserCommand = "*firefox";
-       	selenium = createobject("component","CFSelenium.selenium").init("localhost", 4444);
+       	selenium = createobject("component","webSelenium").init("localhost", 4444);
        	assertEquals(0, len(selenium.getSessionId()));
         selenium.start(browserUrl,browserCommand);
 	    assertFalse(len(selenium.getSessionId()) eq 0);

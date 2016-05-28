@@ -1,9 +1,9 @@
-<cfcomponent extends="cfselenium.CFSeleniumTestCase_Tags" >
+<cfcomponent extends="CFSeleniumTestCase_Tags" >
 
 	<cffunction name="beforeTests">
 		<cfset browserUrl = "http://wiki.mxunit.org/">
 		<cfset browserCommand= "*firefox">
-		<cfset selenium= createObject("component","CFSelenium.selenium_tags").init("localhost", 4444)>
+		<cfset selenium= createObject("component","selenium_tags").init("localhost", 4444)>
         <cfset assertEquals(0, Len(selenium.getSessionId()))>
 		<cfset selenium.start(browserUrl,browserCommand)>
 		<cfset assertFalse(Len(selenium.getSessionId()) EQ 0)>

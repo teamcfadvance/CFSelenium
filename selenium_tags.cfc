@@ -30,6 +30,7 @@
 		<cfargument required="false" type="numeric" name="port" default="4444" />
 		<cfargument required="false" type="numeric" name="executionDelay" default="200" />
 		<cfargument required="false" type="string" name="seleniumJarPath" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.42.2.jar" />
+
 		<cfargument required="false" type="boolean" name="verbose" default="false" />
 		<cfargument required="false" type="string" name="seleniumServerArguments" default="" />
 		<cfargument required="false" type="numeric" name="waitTimeout" default="30000" />
@@ -109,7 +110,7 @@
 			<cfset thread= CreateObject("java","java.lang.Thread") />
 			<cfset thread.sleep(100) />
 			<cfif getTickCount() GTE endTickCount>
-				<cfthrow type="CFSelenium.elementNotFound" message="The element: #arguments.locator# was not found after #arguments.timeout/1000# seconds." / >
+				<cfthrow type="elementNotFound" message="The element: #arguments.locator# was not found after #arguments.timeout/1000# seconds." / >
 			</cfif>
 		</cfloop>
 	</cffunction>
@@ -123,7 +124,7 @@
 			<cfset thread= CreateObject("java","java.lang.Thread") />
 			<cfset thread.sleep(100) />
 			<cfif getTickCount() GTE endTickCount>
-				<cfthrow type="CFSelenium.elementNotVisible" message="The element: #arguments.locator# was not visible after #arguments.timeout/1000# seconds." / >
+				<cfthrow type="elementNotVisible" message="The element: #arguments.locator# was not visible after #arguments.timeout/1000# seconds." / >
 			</cfif>
 		</cfloop>
 	</cffunction>
@@ -137,7 +138,7 @@
 			<cfset thread= CreateObject("java","java.lang.Thread") />
 			<cfset thread.sleep(100) />
 			<cfif getTickCount() GTE endTickCount>
-				<cfthrow type="CFSelenium.elementStillVisible" message="The element: #arguments.locator# was still visible after #arguments.timeout/1000# seconds." / >
+				<cfthrow type="elementStillVisible" message="The element: #arguments.locator# was still visible after #arguments.timeout/1000# seconds." / >
 			</cfif>
 		</cfloop>
 	</cffunction>
