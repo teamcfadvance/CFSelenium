@@ -28,7 +28,7 @@
   <property name="build.dir" value="" />
   
   <!-- SELENIUM STANDALONE SERVER FILE -->
-  <property name="selenium.jar" value="selenium-server-standalone-2.37.0.jar" />
+  <property name="selenium.jar" value="selenium-server-standalone-2.53.0.jar" />
 
   <!-- PLATFORMS -->
 

@@ -1,8 +1,9 @@
-﻿component  extends="mxunit.framework.TestCase" hint="Test the WebDriver" output="false" {
+﻿﻿component  extends="mxunit.framework.TestCase" hint="Test the WebDriver" output="false" {
 
 	public void function beforeTests() {
 		include "../functions.cfm";
 		variables.selenium = new cfselenium.selenium();
+		variables.fixtureBaseUrl = "http://#cgi.server_name#:#cgi.server_port#/test/fixture";
 	}
 	
 	public function setup() {
@@ -43,7 +44,7 @@
 		// set firefox driver
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 
-		local.url = "https://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 		assertEquals( local.url, variables.driver.getCurrentURL() );
 		variables.driver.quit();
@@ -52,7 +53,7 @@
 	public function firefoxCloseTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 		variables.driver.close();
 		// now try opening a page to make sure "browser" has actually closed
@@ -68,21 +69,21 @@
 	public function findElementByIdTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
-		local.webElement = variables.driver.findElementById( "gsr" );
+		local.webElement = variables.driver.findElementById( "fixture-body" );
 
 		local.expected = 'body';
 		local.actual = local.webElement.getTagName();
 
 		assertEquals( local.expected, local.actual );
 	}
-	
+
 	public function missingElementByIdTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
 		// search for bad ID
@@ -97,10 +98,10 @@
 	public function findElementByNameTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
-		local.webElement = variables.driver.findElementByName( "output" );
+		local.webElement = variables.driver.findElementByName( "q" );
 
 		local.expected = 'input';
 		local.actual = local.webElement.getTagName();
@@ -127,7 +128,7 @@
 		// this will only pass for sites with the same "name=" elements such as multiple checkboxes or radio buttons
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
 		local.webElements = variables.driver.findElementsByName( "chkYesNo" );
@@ -137,11 +138,11 @@
 
 		assertEquals( local.expected, local.actual );
 	}
-
+	
 	public function missingElementsFindMultipleElementsByNameTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
 		local.webElements = variables.driver.findElementsByName( "badName" );
@@ -155,7 +156,7 @@
 	public function findElementByNameAndValueTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
 		local.webElements = variables.driver.findElementByNameAndValue( "output", "search" );
@@ -169,7 +170,7 @@
 	public function missingFindElementByNameAndValueTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
 		local.webElements = variables.driver.findElementByNameAndValue( "output", "notAValue" );
@@ -183,10 +184,10 @@
 	public function getTitleTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
-		local.expected = "Google";
+		local.expected = "Fixture Title";
 		local.actual = variables.driver.getTitle();
 
 		assertEquals( local.expected, local.actual );
@@ -195,7 +196,7 @@
 	public function findElementByLinkTextTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
 		local.webElement = variables.driver.findElementByLinkText( 'Install Google Chrome' );
@@ -206,7 +207,7 @@
 	public function findElementsByClassTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 		
-		local.url = "http://www.google.com/";
+		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
 
 		local.actual = variables.driver.findElementsByClass( 'padi' );

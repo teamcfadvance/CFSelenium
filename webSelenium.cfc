@@ -17,7 +17,7 @@
 	*/
 
 	public any function init (string host = "localhost", numeric port = 4444,
-		numeric executionDelay = 200, string seleniumJarPath = "../../Selenium-RC/selenium-server-standalone-2.37.0.jar", boolean verbose = false, string seleniumServerArguments = "",
+		numeric executionDelay = 200, string seleniumJarPath = "../../Selenium-RC/selenium-server-standalone-2.53.0.jar", boolean verbose = false, string seleniumServerArguments = "",
 		numeric waitTimeout = 30000) {
 
 		structAppend(variables,arguments,true);
@@ -53,8 +53,10 @@
 		response = connection.send().getPrefix().fileContent;
 		if (left(response,2) eq "OK") {
 			return response;
+		} else {
+			// writeDump( var=response, abort=true );
+			throw("The Response of the Selenium RC is invalid: #response#");
 		}
-		throw("The Response of the Selenium RC is invalid: #response#");
 
 	}
 

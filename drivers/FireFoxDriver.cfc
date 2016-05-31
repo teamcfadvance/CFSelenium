@@ -1,7 +1,11 @@
 ﻿component output="false" extends="WebDriver" {
 
 	public FireFoxDriver function init() {
-		return super.init( driver=createObject( "java", "org.openqa.selenium.firefox.FirefoxDriver", "#ExpandPath('../../Selenium-RC/selenium-server-standalone-2.37.0.jar')#" ), driverType="Firefox" );
+		var driver = createJavaObject(
+			"org.openqa.selenium.firefox.FirefoxDriver",
+			variables.serverLibPath
+		);
+		return super.init( driver=driver, driverType="Firefox" );
 	}
 
 	public void function setFireFoxPath( required string path ) {

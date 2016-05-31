@@ -9,9 +9,21 @@
 
 */
 
-component displayname="WebDriver" output="true" {
+component displayname="WebDriver" output="true"
+	accessors=true
+{
 
-	public WebDriver function init( any driver=createObject("java", "org.openqa.selenium.WebDriver", "#ExpandPath('../../Selenium-RC/selenium-server-standalone-2.37.0.jar')#"), string driverType="" ) {
+	variables.serverLibPath = expandPath(
+		getDirectoryFromPath(getCurrentTemplatePath())
+		& "/../Selenium-RC/selenium-server-standalone-2.53.0.jar"
+	);
+	
+	variables.defaultDriver = createJavaObject(
+		"org.openqa.selenium.WebDriver",
+		variables.serverLibPath
+	);
+
+	public WebDriver function init(	any driver=variables.defaultDriver, string driverType="" ) {
 		// this is the java selenium driver, not the CFC driver
 		setDriver( driver );
 		variables.webElement = "";
@@ -108,15 +120,15 @@ component displayname="WebDriver" output="true" {
 		return variables.driver.getCurrentUrl();
 	}
 
-	public WebElement function findElementByName( required string name, any by=createObject( "java", "org.openqa.selenium.By" ) ) {
-		return findElement( arguments.by.name( arguments.name ) );
+	public WebElement function findElementByName( required string name, any by=getBy() ) {
+		return findElement( by.name(name) );
 	}
 
-	public WebElement function findElementById( required string id, any by=createObject( "java", "org.openqa.selenium.By" ) ) {
-		return findElement( arguments.by.id( arguments.id ) );
+	public WebElement function findElementById( required string id, any by=getBy() ) {
+		return findElement( by.id(id) );
 	}
 
-	public WebElement function findElementByXPath( required string xpath, any by=createObject( "java", "org.openqa.selenium.By" ) ) {
+	public WebElement function findElementByXPath( required string xpath, any by=getBy() ) {
 		return findElement( arguments.by.xPath( arguments.xpath ) );
 	} 
 
@@ -158,13 +170,13 @@ component displayname="WebDriver" output="true" {
 	}
 	
 	// helper method when trying to find a specific element but has the same names and different values such as radio buttons
-	public webElement function findElementByNameAndValue( required string name, required string value, any by=createObject( "java", "org.openqa.selenium.By" ) ) {
+	public webElement function findElementByNameAndValue( required string name, required string value, any by=getBy() ) {
 		local.elements = findElements( arguments.by.name( arguments.name ) );
 		
 		return findElementByAttributeValue( "value", arguments.value, local.elements );
 	}
 
-	public WebElement[] function findElementsByName( required string name, any by=createObject( "java", "org.openqa.selenium.By" ) ) {
+	public WebElement[] function findElementsByName( required string name, any by=getBy() ) {
 		local.elements = [];
 		local.webElements = findElements( arguments.by.name( arguments.name ) );
 		for( local.i = 1; local.i <= arrayLen( webElements ); local.i++ ){
@@ -182,8 +194,8 @@ component displayname="WebDriver" output="true" {
 		return local.elements;
 	}
 	
-	public WebElement[] function findElementsByClass( required string class ) {
-		return findElements( createObject( "java", "org.openqa.selenium.By" ).xPath( '//*[contains(concat(" ", normalize-space(@class), " "), " ' & arguments.class & ' ")]' ) );
+	public WebElement[] function findElementsByClass( required string class, any by=getBy() ) {
+		return findElements( by.className(class) );
 	}
 
 	public boolean function getVisible() {
@@ -236,4 +248,35 @@ component displayname="WebDriver" output="true" {
 			type=arguments.type,
 			detail=arguments.detail );
 	}
+
+	/**
+	* @hint Is the current CFML engine Adobe? (Note: Only considers Railo/Lucee as alternatives.)
+	*/
+	private boolean function isCurrentCFMLEngineAdobe() {
+		if ( listFindNoCase("railo,lucee", server.coldfusion.productname) ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	
+	private function createJavaObject(
+		required string class,
+		string context=""
+	) {
+		if (isCurrentCFMLEngineAdobe()) {
+			return createObject("java", class);
+		} else {
+			arguments.type = "java";
+			return createObject("java", class, context);
+		}
+	}
+	
+	private function getBy() {
+		return createJavaObject(
+			"org.openqa.selenium.By",
+			variables.serverLibPath
+		);
+	}
+
 }
