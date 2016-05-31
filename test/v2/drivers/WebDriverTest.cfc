@@ -1,4 +1,5 @@
-﻿﻿component  extends="mxunit.framework.TestCase" hint="Test the WebDriver" output="false" {
+﻿<cfcomponent extends="mxunit.framework.TestCase" hint="Test the WebDriver" output="false" >
+<cfscript>
 
 	public void function beforeTests() {
 		include "../functions.cfm";
@@ -234,4 +235,5 @@
 		structDelete( variables, "selenium" );
 	}
 
-}
+</cfscript>
+</cfcomponent>
