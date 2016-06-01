@@ -5,7 +5,7 @@
 	<cffunction name="init" output="false" access="public" returntype="any" hint="">
 		<cfargument name="selenium" type="any" required="true">
 		<cfargument name="executionDelay" type="numeric" required="false" default="200">
-		<cfargument name="seleniumJarPath" type="string" required="false" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.42.2.jar">
+		<cfargument name="seleniumJarPath" type="string" required="false" default="/cfselenium/Selenium-RC/selenium-server-standalone-2.53.0.jar">
 		<cfargument name="verbose" type="boolean" required="false" default="false">
 		<cfargument name="seleniumServerArguments" type="string" required="false" default="">
 
@@ -32,7 +32,7 @@
 			<cfloop condition="NOT serverIsRunning()">
 				<cfset sleep(variables.executionDelay)>
 				<cfif getTickCount() - loopStart GT 30000>
-					<cfthrow message="After 30 seconds selenium server still not started">
+					<cfthrow message="After 30 seconds selenium server still not started - #jarPath#">
 				</cfif>
 			</cfloop>
 			<cfset variables.iStartedThisServer = true>

@@ -13,11 +13,10 @@
 
 	<cfset browserUrl = mid(cgi.request_url, 1, findNoCase("/CFSelenium/test/", cgi.request_url)) & "CFSelenium/test/fixture/">
 	<cfset browserCommand= "*firefox">
-	<cfset selenium= createObject("component","cfselenium.selenium_tags").init(waitTimeout=1500)>
+	<cfset selenium= createObject("component","selenium_tags").init(waitTimeout=1500)>
 	<cfset selenium.start(browserUrl,browserCommand)>
 	<cfset selenium.setTimeout(30000)>
 	<cfset selenium.open(browserUrl & "waitForFixture.htm") />
-
 	<p>Checking if "alwaysPresentAndVisible" exists on the page (should find it)...</p>
 	<cfflush />
 
@@ -39,7 +38,7 @@
 	<p>Will look for "neverPresent" on the page (should NOT find it and throw an error after 5 seconds)...</p>
 
 	<cfflush />
-	<cfset expected="CFSelenium.elementNotFound">
+	<cfset expected="elementNotFound">
 	<cftry>
 		<cfset selenium.waitForElementPresent("neverPresent")>
 		<cfcatch type="any">
@@ -111,7 +110,7 @@
 	<p>Will look for "neverVisible" on the page (should NOT see it and throw an error after 5 seconds)...</p>
 
 	<cfflush />
-	<cfset expected="CFSelenium.elementNotVisible">
+	<cfset expected="elementNotVisible">
 	<cftry>
 		<cfset selenium.waitForElementVisible("neverVisible")>
 		<cfcatch type="any">
@@ -185,7 +184,7 @@
 	<p>Will test that "alwaysPresentAndVisible" is NOT visible (which is not true and will throw an error after 5 seconds)...</p>
 
 	<cfflush />
-	<cfset expected="CFSelenium.elementStillVisible">
+	<cfset expected="elementStillVisible">
 	<cftry>
 		<cfset selenium.waitForElementNotVisible("alwaysPresentAndVisible")>
 		<cfcatch type="any">
