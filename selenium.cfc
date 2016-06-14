@@ -1,4 +1,6 @@
 ﻿component accessors="true" hint="A CFML binding for Selenium" {
+	
+	variables.JavaFactory = new JavaFactory();
 
 	public Selenium function init( string driverType="", string driverPath="" ) {
 		structAppend(variables,arguments,true);
