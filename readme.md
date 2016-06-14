@@ -100,17 +100,22 @@ You can shut down the browser using the `stop()` method:
 
 Also included in the distribution is a base test case for MXUnit, called CFSeleniumTestCase.cfc. This is designed to instantiate the selenium.cfc for you and start up a browser session once, before all of your tests run, and shut down the browser after all the tests have completed. To use this base test case, simply extend it in your own test case:
 
-	component extends="CFSelenium.CFSeleniumTestCase"
+#### WebDriver
 
-You will then want to place a beforeTests() method in your test case which sets the browserUrl and the calls the base test case's beforeTests() method:
+```
+component extends="CFSelenium.CFSeleniumWebDriverTestCase"
+```
 
-	public void function beforeTests(){
-		browserURL = "http://github.com/";
-		// WebDriver version:
-		super.beforeTests(version=2);
-		// RC version
-		// super.beforeTests(version=1, browserURL="http://github.com/");
-	}
+#### Selenium-RC
+
+```
+component extends="CFSelenium.CFSeleniumRCTestCase"
+
+public void function beforeTests(){
+	browserURL = "http://github.com/";
+	super.beforeTests(browserURL="http://github.com/");
+}
+```
 
 ### A Selenium-IDE Formatter Too ###
 

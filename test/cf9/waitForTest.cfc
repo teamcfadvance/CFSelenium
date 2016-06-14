@@ -1,4 +1,4 @@
-component extends="CFSeleniumTestCase" {
+component extends="CFSeleniumRCTestCase" {
 
     public void function beforeTests() {
 		// TODO: JAJ: What was the intent of this old line?

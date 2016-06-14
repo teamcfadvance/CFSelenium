@@ -1,8 +1,8 @@
-component extends="cfselenium.CFSeleniumTestCase" {
+component extends="cfselenium.CFSeleniumRCTestCase" {
 
 	function beforeTests(){
 		browserURL = "http://github.com/";
-		super.beforeTests( version=1, browserURL=browserURL );
+		super.beforeTests( browserURL=browserURL );
 	}
 
 	function testForReadmePage() {

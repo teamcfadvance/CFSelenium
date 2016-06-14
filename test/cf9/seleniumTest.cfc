@@ -1,4 +1,4 @@
-component extends="CFSeleniumTestCase" {
+component extends="CFSeleniumRCTestCase" {
 
 	public void function beforeTests() {
 		browserUrl = "http://wiki.mxunit.org/";

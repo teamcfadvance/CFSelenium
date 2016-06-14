@@ -1,4 +1,4 @@
-component extends="CFSeleniumTestCase"   {
+component extends="CFSeleniumRCTestCase"   {
 
 	// environment needs to be set up for this to work
 	function beforeTests() {

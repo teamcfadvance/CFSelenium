@@ -1,4 +1,4 @@
-component extends="CFSeleniumTestCase"   {
+component extends="CFSeleniumRCTestCase"   {
 
 	function beforeTests() {
 		selenium = createObject("component", "SeleniumRC").init();

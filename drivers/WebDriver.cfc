@@ -17,10 +17,9 @@ component displayname="WebDriver" output="true"
 
 	variables.javaFactory = new JavaFactory();
 	variables.javaSystem = createObject("java", "java.lang.System");
-	variables.defaultLocalDriverRepoPath = expandPath(
+	variables.defaultLocalDriverRepoPath = 
 		javaSystem.getProperty("java.io.tmpdir")
-			& "webdriver/"
-	);
+		& "webdriver/";
 	
 	public WebDriver function init(
 		any driver=variables.JavaFactory.createObject("org.openqa.selenium.WebDriver")
@@ -252,19 +251,19 @@ component displayname="WebDriver" output="true"
 			* CFML engine's JVM.
 			*/
 			// get an arbitrary object from the wdm library
-			webDriverManager = javaFactory.createObject("io.github.bonigarcia.wdm.WebDriverManager");
+			var webDriverManager = javaFactory.createObject("io.github.bonigarcia.wdm.WebDriverManager");
 			// get its classloader
-			classLoader = webDriverManager.getClass().getClassLoader();
+			var classLoader = webDriverManager.getClass().getClassLoader();
 			// get a properties object from the classloader
-			props = classLoader.loadClass("java.util.Properties").newInstance();
+			var props = classLoader.loadClass("java.util.Properties").newInstance();
 			
 			// get the application.properties file from the jar
-			in = webDriverManager.getClass().getResourceAsStream("/application.properties");
+			var propsFileStream = webDriverManager.getClass().getResourceAsStream("/application.properties");
 			// load the properties into the jar's classloader's props
-			props.load(in);
+			props.load(propsFileStream);
 			
 			// get cfml engine's java system
-			system = createObject("java", "java.lang.System");
+			var system = createObject("java", "java.lang.System");
 			// load jar's classloader's props into cfml engine's'
 			for (prop in props) {
 				if (isNull(system.getProperty(prop))) { // don't clobber
