@@ -15,12 +15,16 @@ component displayname="WebDriver" output="true"
 	property name="driver" type="any";
 	property name="webElement" type="any";
 
-	variables.JavaFactory = new JavaFactory();
+	variables.javaFactory = new JavaFactory();
+	variables.javaSystem = createObject("java", "java.lang.System");
+	variables.defaultLocalDriverRepoPath = expandPath(
+		javaSystem.getProperty("java.io.tmpdir")
+			& "webdriver/"
+	);
 	
 	public WebDriver function init(
 		any driver=variables.JavaFactory.createObject("org.openqa.selenium.WebDriver")
 	) {
-		setupDefaultPropertiesForAllDrivers();
 		// this is the java selenium driver, not the CFC driver
 		setDriver( driver );
 		setWebElement("");
@@ -274,8 +278,12 @@ component displayname="WebDriver" output="true"
 	}
 
 	private void function setupDriver(
-		required string driverName
+		required string driverName,
+		string localDriverRepoPath = variables.defaultLocalDriverRepoPath
 	) {
+		variables.javaSystem.setProperty("wdm.targetPath", localDriverRepoPath);
+		setupDefaultPropertiesForAllDrivers();
+
 		if (!structKeyExists(application, "cfselenium")) {
 			application.cfselenium = {};
 		}

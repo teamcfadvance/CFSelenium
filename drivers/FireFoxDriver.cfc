@@ -1,8 +1,12 @@
 ﻿component output="false" extends="WebDriver" {
 
-	setupDriver("Marionette");
-
-	public FireFoxDriver function init() {
+	public FireFoxDriver function init(
+		string localDriverRepoPath = variables.defaultLocalDriverRepoPath
+	) {
+		setupDriver(
+			driverName = "Marionette",
+			localDriverRepoPath = localDriverRepoPath
+		);
 		var driver = variables.JavaFactory.createObject(
 			"org.openqa.selenium.firefox.MarionetteDriver"
 		);

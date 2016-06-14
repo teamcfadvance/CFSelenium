@@ -3,17 +3,28 @@
 	hint="Base class for MXUnit tests."
 >
 
+	<cfscript>
+	variables.defaultLocalDriverRepoPath = expandPath(
+		createObject("java", "java.lang.System")
+			.getProperty("java.io.tmpdir")
+			& "webdriver/"
+	);
+	</cfscript>
+
 	<cffunction name="beforeTests" output="false" access="public" returntype="any" hint="">
 		<cfargument name="version" required="false" default="1" type="numeric" hint="Version of selenium to use. 1=RC, 2=WebDriver">
 		<cfargument name="browserCommand" required="false" default="*firefox" type="string" hint="Browser type to use (Selenium v1)" >
 		<cfargument name="browserURL" required="false" default="" type="string" hint="Initial URL for browser (Selenium v1)" />
+		<cfargument name="driverPath" required="false" default="#variables.defaultLocalDriverRepoPath#" type="string" hint="Path to WebDriver drivers" />
 
 		<cfscript>
 			if ( !listFind("1,2", arguments.version) ) {
 				throw("version argument value may only be '1' or '2'");
 			}
 			if ( arguments.version == 2 ) {
-				variables.selenium = createObject( "component", "SeleniumWebDriver" ).init();
+				variables.selenium = createObject( "component", "SeleniumWebDriver" ).init(
+					driverPath = arguments.driverPath
+				);
 				variables.driver = variables.selenium.getDriver();
 			} else {
 				if ( !isDefined("arguments.browserURL") ) {

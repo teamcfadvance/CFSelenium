@@ -1,8 +1,12 @@
 ﻿component output="false" extends="WebDriver" {
 
-	setupDriver("InternetExplorer");
-
-	public InternetExplorerDriver function init() {
+	public InternetExplorerDriver function init(
+		string localDriverRepoPath = variables.defaultLocalDriverRepoPath
+	) {
+		setupDriver(
+			driverName = "InternetExplorer",
+			localDriverRepoPath = localDriverRepoPath
+		);
 		var driver = variables.JavaFactory.createObject(
 			"org.openqa.selenium.ie.InternetExplorerDriver"
 		).init(5555);
