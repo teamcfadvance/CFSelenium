@@ -5,7 +5,7 @@ component extends="CFSeleniumTestCase"   {
 		// TODO: JAJ: Find out what this test configuration (for Mac?) is supposed to be.
 		// hostname = "192.168.56.101";
     	hostname = "localhost";
-	    selenium = createobject("component","webSelenium").init(hostname, 4444);
+	    selenium = createobject("component","SeleniumRC").init(hostname, 4444);
 		browserUrl = "http://wiki.mxunit.org/";
 	}
 	

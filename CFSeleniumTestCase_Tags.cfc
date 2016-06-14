@@ -1,4 +1,7 @@
-<cfcomponent extends="mxunit.framework.TestCase">
+<cfcomponent 
+	extends="mxunit.framework.TestCase"
+	hint="Provides a tag-based mxunit test setup. Was written for (deprecated) Selenium-RC, and Hasn't been evaluated for use with (modern) WebDriver." 
+>
 
 	<cffunction name="beforeTests" output="false" access="public" returntype="any" hint="">
 		<!--- NOTE: instantiating selenium will also start the Java if it was not already running --->

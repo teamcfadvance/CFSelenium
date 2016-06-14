@@ -1,4 +1,4 @@
-﻿component accessors="true" hint="A CFML binding for Selenium 1.0" {
+﻿component accessors="true" hint="A CFML binding for Selenium 1.0 (a.k.a. 'RC' -- predecessor of the now-preferred 'WebDriver')" {
 
 	/*
 	Copyright 2011 Bob Silverberg

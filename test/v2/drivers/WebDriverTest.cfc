@@ -6,7 +6,7 @@
 
 	public void function beforeTests() {
 		include "../functions.cfm";
-		variables.selenium = new cfselenium.selenium();
+		variables.selenium = new cfselenium.SeleniumWebDriver();
 		variables.fixtureBaseUrl = "http://#cgi.server_name#:#cgi.server_port#/test/fixture";
 	}
 	
