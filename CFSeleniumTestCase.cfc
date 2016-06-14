@@ -15,7 +15,7 @@
 		<cfargument name="version" required="false" default="1" type="numeric" hint="Version of selenium to use. 1=RC, 2=WebDriver">
 		<cfargument name="browserCommand" required="false" default="*firefox" type="string" hint="Browser type to use (Selenium v1)" >
 		<cfargument name="browserURL" required="false" default="" type="string" hint="Initial URL for browser (Selenium v1)" />
-		<cfargument name="driverPath" required="false" default="#variables.defaultLocalDriverRepoPath#" type="string" hint="Path to WebDriver drivers" />
+		<cfargument name="localDriverRepoPath" required="false" default="#variables.defaultLocalDriverRepoPath#" type="string" hint="Path to WebDriver drivers" />
 
 		<cfscript>
 			if ( !listFind("1,2", arguments.version) ) {
@@ -23,7 +23,7 @@
 			}
 			if ( arguments.version == 2 ) {
 				variables.selenium = createObject( "component", "SeleniumWebDriver" ).init(
-					driverPath = arguments.driverPath
+					localDriverRepoPath = arguments.localDriverRepoPath
 				);
 				variables.driver = variables.selenium.getDriver();
 			} else {

@@ -5,7 +5,7 @@
 
 	variables.JavaFactory = new JavaFactory();
 
-	public SeleniumWebDriver function init( string driverType="", string driverPath="" ) {
+	public SeleniumWebDriver function init( string driverType="", string localDriverRepoPath="" ) {
 		structAppend(variables,arguments,true);
 		variables.sessionId = "";
 		
