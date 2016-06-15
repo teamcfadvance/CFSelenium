@@ -64,7 +64,7 @@ You can also pass the host and port into the constructor, which default to local
 
 Optionally, start the Selenium-RC server.  Selenium.cfc will automatically start the Selenium-RC server for you in the background if it isn't already started (note this does not work on CF7).
 
-Note: When running IE tests, you may need to start the server manually, and *as the **administrator*** user, in order to get around [certain problems](https://github.com/teamcfadvance/CFSelenium/pull/25#issue-157582346). Also, you may need to set up [IE's "Protected Mode" settings](http://jimevansmusic.blogspot.com/2012/08/youre-doing-it-wrong-protected-mode-and.html) if you get an exception like `org.openqa.selenium.WebDriverException: Unexpected error launching Internet Explorer. Protected Mode must be set to the same value (enabled or disabled) for all zones. (WARNING: The server did not provide any stacktrace information)`. 
+Note: When running IE tests (assuming you're on Windows), you may need to start the server manually, and _as the **`administrator`**_ user, in order to get around [certain problems](https://github.com/teamcfadvance/CFSelenium/pull/25#issue-157582346). Also, you may need to set up [IE's "Protected Mode" settings](http://jimevansmusic.blogspot.com/2012/08/youre-doing-it-wrong-protected-mode-and.html) if you get an exception like `org.openqa.selenium.WebDriverException: Unexpected error launching Internet Explorer. Protected Mode must be set to the same value (enabled or disabled) for all zones. (WARNING: The server did not provide any stacktrace information)`. 
 
 To start it manually, the command is similar to this:
 
