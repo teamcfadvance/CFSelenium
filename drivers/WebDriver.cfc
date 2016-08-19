@@ -12,44 +12,23 @@
 component displayname="WebDriver" output="true"
 	accessors=true
 {
+	property name="driver" type="any";
+	property name="webElement" type="any";
 
-	variables.serverLibPath = expandPath(
-		getDirectoryFromPath(getCurrentTemplatePath())
-		& "/../Selenium-RC/selenium-server-standalone-2.53.0.jar"
-	);
+	variables.javaFactory = new JavaFactory();
+	variables.javaSystem = createObject("java", "java.lang.System");
+	variables.defaultLocalDriverRepoPath = 
+		javaSystem.getProperty("java.io.tmpdir")
+		& "webdriver/";
 	
-	variables.defaultDriver = createJavaObject(
-		"org.openqa.selenium.WebDriver",
-		variables.serverLibPath
-	);
-
-	public WebDriver function init(	any driver=variables.defaultDriver, string driverType="" ) {
+	public WebDriver function init(
+		any driver=variables.JavaFactory.createObject("org.openqa.selenium.WebDriver")
+	) {
 		// this is the java selenium driver, not the CFC driver
 		setDriver( driver );
-		variables.webElement = "";
-		variables.driverType = arguments.driverType;
+		setWebElement("");
 		
 		return this;
-	}
-
-	public string function getType(){
-		return variables.driverType;
-	}
-	
-	public any function getDriver() {
-		return variables.driver;
-	}
-
-	public void function setDriver( required any driver ) {
-		variables.driver = arguments.driver;
-	}
-	
-	public any function getWebElement() {
-		return variables.webElement;
-	}
-	
-	public void function setWebElement( required any webElement ) {
-		variables.webElement = arguments.webElement;
 	}
 
 	public void function get( required string url ) {
@@ -248,35 +227,82 @@ component displayname="WebDriver" output="true"
 			type=arguments.type,
 			detail=arguments.detail );
 	}
-
-	/**
-	* @hint Is the current CFML engine Adobe? (Note: Only considers Railo/Lucee as alternatives.)
-	*/
-	private boolean function isCurrentCFMLEngineAdobe() {
-		if ( listFindNoCase("railo,lucee", server.coldfusion.productname) ) {
-			return false;
-		} else {
-			return true;
-		}
-	}
-	
-	private function createJavaObject(
-		required string class,
-		string context=""
-	) {
-		if (isCurrentCFMLEngineAdobe()) {
-			return createObject("java", class);
-		} else {
-			arguments.type = "java";
-			return createObject("java", class, context);
-		}
-	}
 	
 	private function getBy() {
-		return createJavaObject(
-			"org.openqa.selenium.By",
-			variables.serverLibPath
-		);
+		return variables.JavaFactory.createObject("org.openqa.selenium.By");
+	}
+	
+	private void function setupDefaultPropertiesForAllDrivers() {
+		if (!structKeyExists(application, "cfselenium")) {
+			application.cfselenium = {};
+		}
+		/* This is cached in application scope, because (i think) we sometimes 
+		* run into api.github.com rate limiting errors while checking for latest
+		* drivers and downloading them. I think it's best to do it only once.
+		*/
+		if (!structKeyExists(
+			application.cfselenium,
+			"webDriverManagerDefaultPropertiesAreSetup"
+		)) {
+			/* I don't know why I have to jump through these hoops. I landed on this
+			* solution by trial and error.
+			* Overview: Library sets up some properties, but seemingly, only
+			* in its classloader. This "exports" those "wdm.*" keys into the
+			* CFML engine's JVM.
+			*/
+			// get an arbitrary object from the wdm library
+			var webDriverManager = javaFactory.createObject("io.github.bonigarcia.wdm.WebDriverManager");
+			// get its classloader
+			var classLoader = webDriverManager.getClass().getClassLoader();
+			// get a properties object from the classloader
+			var props = classLoader.loadClass("java.util.Properties").newInstance();
+			
+			// get the application.properties file from the jar
+			var propsFileStream = webDriverManager.getClass().getResourceAsStream("/application.properties");
+			// load the properties into the jar's classloader's props
+			props.load(propsFileStream);
+			
+			// get cfml engine's java system
+			var system = createObject("java", "java.lang.System");
+			// load jar's classloader's props into cfml engine's'
+			for (prop in props) {
+				if (isNull(system.getProperty(prop))) { // don't clobber
+					system.setProperty(prop, props[prop]);
+				}
+			}
+			
+			application.cfselenium.webDriverManagerDefaultPropertiesAreSetup = true;
+			
+		}
+	}
+
+	private void function setupDriver(
+		required string driverName,
+		string localDriverRepoPath = variables.defaultLocalDriverRepoPath
+	) {
+		variables.javaSystem.setProperty("wdm.targetPath", localDriverRepoPath);
+		setupDefaultPropertiesForAllDrivers();
+
+		if (!structKeyExists(application, "cfselenium")) {
+			application.cfselenium = {};
+		}
+		if (!structKeyExists(application.cfselenium, "drivers")) {
+			application.cfselenium.drivers = {};
+		}
+		if (!structKeyExists(application.cfselenium.drivers, driverName)) {
+			application.cfselenium.drivers[driverName] = {};
+		}
+		if (!structKeyExists(application.cfselenium.drivers[driverName], "isSetup")) {
+			/* This downloads drivers and sets the JVM properties that WebDriver
+			* and WebDriverManager need.
+			*/
+			javaFactory.createObject(
+				"io.github.bonigarcia.wdm.#driverName#DriverManager"
+			).getInstance().setup();
+			
+			application.cfselenium.drivers[driverName]["isSetup"] = true;
+		}
+			
 	}
 
 }

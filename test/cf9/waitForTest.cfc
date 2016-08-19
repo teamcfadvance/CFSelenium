@@ -1,11 +1,11 @@
-component extends="CFSeleniumTestCase" {
+component extends="CFSeleniumRCTestCase" {
 
     public void function beforeTests() {
 		// TODO: JAJ: What was the intent of this old line?
 		// variables.baseTestURL = mid(cgi.request_url, 1, findNoCase("/test/", cgi.request_url)) & "CFSelenium/test/";
     	variables.baseTestURL = "http://#cgi.server_name#:#cgi.server_port#/test/";
         browserUrl = variables.baseTestURL & "fixture/";
-		variables.selenium = createObject("component", "webSelenium").init(waitTimeout=5000);
+		variables.selenium = createObject("component", "SeleniumRC").init(waitTimeout=5000);
     	variables.selenium.start(browserUrl,"*firefox");
         variables.selenium.setTimeout(30000);
     }

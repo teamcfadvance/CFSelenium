@@ -1,7 +1,7 @@
-component extends="CFSeleniumTestCase"   {
+component extends="CFSeleniumRCTestCase"   {
 
 	function beforeTests() {
-		selenium = createObject("component", "webSelenium").init();
+		selenium = createObject("component", "SeleniumRC").init();
 		browserUrl = "http://wiki.mxunit.org/";
 	}
 	

@@ -6,7 +6,7 @@
 
 	public void function beforeTests() {
 		include "../functions.cfm";
-		variables.selenium = new cfselenium.selenium();
+		variables.selenium = new cfselenium.SeleniumWebDriver();
 		variables.fixtureBaseUrl = "http://#cgi.server_name#:#cgi.server_port#/test/fixture";
 	}
 	
@@ -54,12 +54,15 @@
 		variables.driver.quit();
 	}
 	
-	public function firefoxCloseTest() {
+	/* Jamie Jackson changed from calling .close() to .quit(). assumed tests
+	* were problematic, not code under tests.
+	*/
+	public function firefoxQuitTest() {
 		variables.driver = updateDriverByType( variables.selenium, "firefox" );
 
 		local.url = "#fixtureBaseUrl#/fixture.htm";
 		variables.driver.get( local.url );
-		variables.driver.close();
+		variables.driver.quit();
 		// now try opening a page to make sure "browser" has actually closed
 		try {
 			variables.driver.getTitle();

@@ -1,15 +1,16 @@
 ﻿component output="false" extends="WebDriver" {
 
-	public FireFoxDriver function init() {
-		var driver = createJavaObject(
-			"org.openqa.selenium.firefox.FirefoxDriver",
-			variables.serverLibPath
+	public FireFoxDriver function init(
+		string localDriverRepoPath = variables.defaultLocalDriverRepoPath
+	) {
+		setupDriver(
+			driverName = "Marionette",
+			localDriverRepoPath = localDriverRepoPath
 		);
-		return super.init( driver=driver, driverType="Firefox" );
-	}
-
-	public void function setFireFoxPath( required string path ) {
-		createObject( "java", "java.lang.System" ).setProperty( "webdriver.firefox.bin", arguments.path);
+		var driver = variables.JavaFactory.createObject(
+			"org.openqa.selenium.firefox.MarionetteDriver"
+		);
+		return super.init( driver=driver );
 	}
 
 	public void function setUseExistingFireFoxInstance( required string toggle ) {

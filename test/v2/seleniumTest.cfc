@@ -1,7 +1,7 @@
 ﻿component  extends="mxunit.framework.TestCase" hint="Test Selenium Object" output="false" {
 
 	public void function beforeTests() {
-		variables.selenium = new cfselenium.selenium();
+		variables.selenium = new cfselenium.SeleniumWebDriver();
 	}
 	
 	public function setup() {
@@ -18,7 +18,7 @@
 	}
 	
 	public function isIEDriverOnInitTest() {
-		variables.selenium = new selenium( driverType="ie" );
+		variables.selenium = new SeleniumWebDriver( driverType="ie" );
 		assertIsTypeOf( variables.selenium.getDriver(), "cfselenium.drivers.InternetExplorerDriver" );
 		variables.selenium.getDriver().quit();
 	}
@@ -30,7 +30,7 @@
 	}
 	
 	public function isFirefoxDriverOnInitTest() {
-		variables.selenium = new selenium( driverType="firefox" );
+		variables.selenium = new SeleniumWebDriver( driverType="firefox" );
 		assertIsTypeOf( variables.selenium.getDriver(), "cfselenium.drivers.FirefoxDriver" );
 		variables.selenium.getDriver().quit();
 	}

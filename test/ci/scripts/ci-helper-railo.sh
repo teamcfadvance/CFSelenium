@@ -19,7 +19,7 @@ case $1 in
 		ln -s $BUILD_DIR railo/webapps/www/$2
 
 		echo "copy jar file to classpath for loading when server starts"
-		cp railo/webapps/www/$2/Selenium-RC/$SELENIUM_JAR railo/lib
+		cp railo/webapps/www/$2/lib/$SELENIUM_JAR railo/lib
 		
 		chmod a+x railo/lib/$SELENIUM_JAR
 		
