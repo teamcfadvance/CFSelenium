@@ -23,6 +23,10 @@
 			variables.driver = new cfselenium.drivers.InternetExplorerDriver();
 		} else if ( arguments.driverType == "firefox" || arguments.driverType == "ff" ) {
 			variables.driver = new cfselenium.drivers.FireFoxDriver();
+		} else if ( arguments.driverType == "chrome" || arguments.driverType == "googlechrome") {
+			variables.driver = new cfselenium.drivers.ChromeDriver();
+		} else if ( arguments.driverType == "phantomjs" || arguments.driverType == "phantom") {
+			variables.driver = new cfselenium.drivers.PhantomJSDriver();
 		} else {
 			variables.driver = new cfselenium.drivers.WebDriver();
 		}
