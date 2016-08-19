@@ -35,7 +35,7 @@
 	}  
 
 	public string function getText() {
-		return this.webElement.getText();
+		return variables.webElement.getText();
 	}
 
 	public void function clear() {
