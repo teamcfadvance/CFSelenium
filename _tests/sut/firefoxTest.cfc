@@ -12,9 +12,13 @@ component extends='_tests.basetests.BaseSpecTest' {
 				var webDriverFilename = 'geckodriver-v0.16.1-win64.exe';
 			break;
 
+			case 'Linux':
+				var webDriverFilename = 'geckodriver';
+			break;
+
 			default:
 // I need to figure out how to get TestBox to end the test
-// suite as there isn't support for Linux at this time
+// suite if the operating system isn't supported
 			break;
 		}
 
