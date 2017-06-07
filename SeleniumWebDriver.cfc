@@ -1,6 +1,6 @@
 ﻿component {
 	public SeleniumWebDriver function init( requried string driverType, required string webdriver ) {
-		variables.driver = setDriverByType( driverType, webdriver );
+		setDriverByType( driverType, webdriver );
 
 		return this;
 	}
@@ -9,17 +9,17 @@
 		return variables.driver;
 	}
 
-	public any function setDriverByType( required string driverType, required string webdriver ) {
+	public void function setDriverByType( required string driverType, required string webdriver ) {
 		switch( driverType ) {
 			case 'firefox':
-				var driver = new cfselenium.drivers.FireFoxDriver( webdriver );
+				variables.driver = new cfselenium.drivers.FireFoxDriver( webdriver );
 			break;
 
 			default:
-				var driver = new cfselenium.drivers.WebDriver( webdriver );
+				variables.driver = new cfselenium.drivers.WebDriver( webdriver );
 			break;
 		}
 
-		return driver;
+		return;
 	}
 }
