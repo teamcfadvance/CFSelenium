@@ -8,9 +8,9 @@
 
     https://github.com/marcins/cfml-ci
   -->
-  
+
   <!-- location of tests directory -->
-  <property name="test.dir" value="test" />
+  <property name="test.dir" value="_tests" />
 
   <!-- you should change this value to a short name for your project
     will be used a symlink so shouldn't contain spaces -->
@@ -26,7 +26,7 @@
   <!-- the directory containing your project web root, this will be symlinked
     in to the webserver.  Might be able to be left blank.  Necessary for "windows" builds -->
   <property name="build.dir" value="" />
-  
+
   <!-- SELENIUM STANDALONE SERVER FILE -->
   <property name="selenium.jar" value="selenium-server-standalone-2.53.0.jar" />
 
@@ -154,7 +154,7 @@ Valid values are:
     <waitfor maxwait="15" maxwaitunit="second">
       <not>
         <http url="http://${server.name}:${server.port}/${test.project}/${test.dir}/ci/HttpAntRunner.cfc"/>
-      </not> 
+      </not>
     </waitfor>
   </target>
 
@@ -163,7 +163,7 @@ Valid values are:
       <http url="http://${server.name}:${server.port}/${test.project}/${test.dir}/ci/HttpAntRunner.cfc"/>
     </condition>
   </target>
-  
+
   <target name="remove-work-dir" depends="is-server-running,stop-server">
     <!-- workaround for bug in ANT task that removes original, symlinked directory -->
 	<exec executable="/bin/bash" spawn="false" failonerror="true" osfamily="unix">
@@ -175,13 +175,13 @@ Valid values are:
 	</exec>
     <!--<delete dir="${work.dir}" />-->
   </target>
-  
+
   <target name="clean" depends="remove-work-dir,install-ci-deps,test-ci" />
 
   <target name="test-ci" depends="start-server,test,stop-server">
     <fail if="mxunit.failed" message="At least one test failure!"/>
   </target>
-  
+
   <target name="test" depends="run-tests" />
 
   <target description="Make output directories and run the MXUnit task" name="run-tests">
