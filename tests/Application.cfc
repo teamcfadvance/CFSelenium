@@ -11,7 +11,7 @@ component {
 	this.mappings[ "/testbox" ] = getDirectoryFromPath( getCurrentTemplatePath() ) & '../testbox';
 
 	this.mappings[ '/cfselenium' ] = getDirectoryFromPath( getCurrentTemplatePath() ) & '../';
-	this.mappings[ '/_tests' ] = getDirectoryFromPath( getCurrentTemplatePath() );
+	this.mappings[ '/tests' ] = getDirectoryFromPath( getCurrentTemplatePath() );
 
 	this.javaSettings = { loadPaths = [ getDirectoryFromPath( getCurrentTemplatePath() ) & '../lib/selenium-server-standalone-3.4.0.jar' ] };
 }

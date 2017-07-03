@@ -1,4 +1,4 @@
-component extends='_tests.basetests.BaseSpecTest' {
+component extends='tests.basetests.BaseSpecTest' {
 // setup
 	function beforeAll() {
 		super.beforeAll();
