@@ -1,11 +1,33 @@
 language: java
+sudo: required
+jdk:
+- oraclejdk8
+cache:
+  directories:
+  - $HOME/.CommandBox
+addons:
+  firefox: "latest"
 env:
   matrix:
-    - PLATFORM=railo41
-  global:
-    - secure: "eAZHEqLif27bfXxkm7g9xuf2jeY4H2vIyY8RHRa51O83ujOraqbtkv6AcwCEJLQv9OkC5wFTALOkRAIk06BoDAKM1gS5i0zFkMjYMDzVPChDDM4a85ZQxsgTV0zsqerP/eAsYZXqCENMpbodmGBqMK0lrdaDj/KjSHtHQK5gxJc="
-    - secure: "NsRz2tIuwbGbt76ZA+Cmrrl/27p7LvT+VF0dfYIlTIhThOK+zYXrSyGMtni/ygc83BNRromnaU5kUFn+TG46MqADHwflspBiPRWYX3bnfa1Y0Uzs1Og5yihJZEmcgde0nkFhfjpuoY33F/QwMDv8nYZSKMCp32VppJoINr2jMFs="
-install: ant -Dsource=remote -Dwork.dir=$HOME/work -Dbuild.dir=$TRAVIS_BUILD_DIR -Dplatform=$PLATFORM install-ci-deps
-script: ant -Dsource=remote -Dwork.dir=$HOME/work -Dbuild.dir=$TRAVIS_BUILD_DIR -Dplatform=$PLATFORM test-ci
+    - ENGINE=lucee@4.5
+    - ENGINE=lucee@5
+    - ENGINE=adobe@2016
+    - ENGINE=adobe@11
+    - ENGINE=adobe@10
+before_install:
+- sudo apt-key adv --keyserver keys.gnupg.net --recv 6DA70622
+- sudo echo "deb http://downloads.ortussolutions.com/debs/noarch /" | sudo tee -a
+  /etc/apt/sources.list.d/commandbox.list
+install:
+- sudo apt-get update && sudo apt-get --assume-yes install commandbox
+- box install
 before_script:
-  - curl https://gist.github.com/santiycr/5139565/raw/sauce_connect_setup.sh | bash
+- "export DISPLAY=:99.0"          # xvfb
+- "sh -e /etc/init.d/xvfb start"  # required for
+- sleep 3                         # ui testing
+- box install testbox
+- box server start cfengine=$ENGINE port=8500
+script:
+- box testbox run runner="http://127.0.0.1:8500/_tests/runner.cfm"
+notifications:
+    email: false
