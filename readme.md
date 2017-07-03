@@ -78,3 +78,4 @@ Please use the main repo's [issue tracker](https://github.com/teamcfadvance/CFSe
 The script-based version of CFSelenium was created by [Bob Silverberg](https://github.com/bobsilverberg) and the tag-based version was created by by [Brian Swartzfager](https://github.com/bcswartz). [Marc Esher](https://github.com/marcesher) provided the logic which starts and stops the Selenium-RC server automatically. [@Lampei](https://github.com/Lampei) and [Jamie Jackson](https://github.com/jamiejackson) added WebDriver support.
 
 [Richard Herbert](https://github.com/richardherbert) refactored the WebDriver approach and removed support for Selenium-RC and Selenium-IDE. The tests were rewritten using TestBox/CommandBox and MXUnit has been removed.
+
