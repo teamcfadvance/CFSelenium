@@ -65,7 +65,7 @@ server start cfengine=adobe@11 # when done testing, run `stop`
 That will open a browser window with a random port (e.g., 62261), after which, browse to the following to run the tests and see the results:
 
 * Functional tests:
-	* WebDriver: http://localhost:62261/cfselenium/_tests/
+	* WebDriver: http://localhost:62261/cfselenium/tests/
 
 ### Support ###
 
@@ -75,4 +75,4 @@ Please use the main repo's [issue tracker](https://github.com/teamcfadvance/CFSe
 
 The script-based version of CFSelenium was created by [Bob Silverberg](https://github.com/bobsilverberg) and the tag-based version was created by by [Brian Swartzfager](https://github.com/bcswartz). [Marc Esher](https://github.com/marcesher) provided the logic which starts and stops the Selenium-RC server automatically. [@Lampei](https://github.com/Lampei) and [Jamie Jackson](https://github.com/jamiejackson) added WebDriver support.
 
-The project has been refactored, dropping Selenium-RC and Selenium-IDE, to focus on support for the WebDriver approach by [Richard Herbert](https://github.com/richardherbert).
+[Richard Herbert](https://github.com/richardherbert) refactored the WebDriver approach and removed support for Selenium-RC and Selenium-IDE. The tests were rewritten using TestBox/CommandBox and MXUnit has been removed.
