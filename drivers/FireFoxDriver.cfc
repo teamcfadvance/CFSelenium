@@ -1,20 +1,9 @@
-﻿component output="false" extends="WebDriver" {
+﻿component extends='WebDriver' {
+	public WebDriver function init( required string webdriver ) {
+		variables.javaSystem.setProperty( 'webdriver.gecko.driver', webdriver );
 
-	public FireFoxDriver function init(
-		string localDriverRepoPath = variables.defaultLocalDriverRepoPath
-	) {
-		setupDriver(
-			driverName = "Marionette",
-			localDriverRepoPath = localDriverRepoPath
-		);
-		var driver = variables.JavaFactory.createObject(
-			"org.openqa.selenium.firefox.MarionetteDriver"
-		);
-		return super.init( driver=driver );
+		var driver = createObject( 'java', 'org.openqa.selenium.firefox.FirefoxDriver' );
+
+		return super.init( driver );
 	}
-
-	public void function setUseExistingFireFoxInstance( required string toggle ) {
-		createObject( "java", "java.lang.System" ).setProperty( "webdriver.firefox.useExisting", arguments.toggle );
-	}
-
 }

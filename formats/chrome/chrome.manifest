@@ -1,3 +1,0 @@
-content cfml-formatters  chrome/content/
- 
-overlay chrome://selenium-ide/content/selenium-ide-overlay.xul chrome://cfml-formatters/content/formats/format-loader.xul
