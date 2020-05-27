@@ -22,7 +22,9 @@ Ensure that the standalone Selenium Server jar file is in your Java load path. Y
 
 To create an instance of Selenium WebDriver:
 
-	selenium = new cfselenium.SeleniumWebDriver( driverType="firefox" );
+	selenium = new cfselenium.SeleniumWebDriver( driverType="firefox", webDriver="path/to/webdrivers/webDriverFilename" );
+
+where webDriverFilename is the binary for the platform you are running. See the example in tests/specs/firefoxSpec.cfc
 
 Currently the Firefox WebDrivers for both Macintosh and Windows are provided. Other browsers and operating systems will be added as test coverage increases.
 
@@ -31,7 +33,7 @@ Currently the Firefox WebDrivers for both Macintosh and Windows are provided. Ot
 Example: Get a page title.
 
 ```
-selenium = new cfselenium.SeleniumWebDriver( driverType="firefox" );
+selenium = new cfselenium.SeleniumWebDriver( driverType="firefox", webDriver="path/to/webdrivers/webDriverFilename" );
 driver = selenium.getDriver();
 driver.get( "https://www.google.com" );
 writedump( var="#driver.getTitle()#" ); // evaluates to "Google"
