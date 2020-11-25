@@ -92,6 +92,10 @@
 		return findElement( arguments.by.xPath( arguments.xpath ) );
 	}
 
+	public webElement function findElementByCSS( required string cssSelector, any by=getBy() ) {
+		return findElement( arguments.by.cssSelector( arguments.cssSelector ) );
+	}
+
 	public WebElement[] function findElements( required any by ) {
 // returns an array of Java web elements
 		try {
